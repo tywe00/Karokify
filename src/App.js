@@ -1,11 +1,8 @@
-import Login from './views/Login';
-
+//import Login from "./views/Login";
+import HomePresenter from "./presenters/homePresenter";
 
 function App() {
-  return (
-    <Login />
-
-  );
+  return <HomePresenter />;
 }
 
 export default App;

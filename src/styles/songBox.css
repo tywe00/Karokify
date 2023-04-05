@@ -1,12 +1,14 @@
 .songBox {
-    background-color: grey;
-    width: 160px;
-    margin: 20px;
-    font-family: Helvetica, sans-serif;
+  grid-column: 1;
+  grid-row: 4;
+  background-color: grey;
+  width: 160px;
+  margin: 20px;
+  font-family: Helvetica, sans-serif;
 }
 
 .albumArt {
-    height: 160px;
-    width: 160px;
-    background-color: aquamarine;
+  height: 160px;
+  width: 160px;
+  background-color: aquamarine;
 }
