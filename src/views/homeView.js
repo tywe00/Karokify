@@ -1,6 +1,7 @@
 import React from "react";
 import SongBox from "../components/songBox.js";
 import Sidebar from "../components/sidebar.js";
+import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/homeView.css';
 
 function HomeView(props) {
@@ -25,8 +26,7 @@ function HomeView(props) {
         <Sidebar />
       </div>
       <div className="mainContent">
-        <h1>{props.data.title}</h1>
-        <p>{props.data.content}</p>
+        <input class="form-control w-75" type="text" placeholder="Search"/>
         <table>
           <tbody>
             <tr>{list.map(callbackCB)}</tr>
