@@ -1,0 +1,32 @@
+.login_page{
+    background-color: rgb(69, 64, 64);
+}
+
+.login_btn{
+    display: inline-block; 
+    background-color: #cc5151; 
+    color: white; 
+    text-align: center; 
+    font-size: 24px; 
+    padding: 10px; 
+    border-radius: 25px; 
+    text-decoration: none;
+
+}
+
+.login_btn_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+ }
+
+ .logo {
+    width: 100%;
+    height: 100px;
+    background-image: url('../../img/logo.png');
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: center center;
+    
+}
