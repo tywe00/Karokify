@@ -8,8 +8,8 @@ function HomeView(props) {
     };
     return (
         <div>
-            <h1>{props.data.title}</h1>
-            <p>{props.data.content}</p>
+            <h1>{data.title}</h1>
+            <p>{data.content}</p>
             <table>
                 <tbody>
                     <tr>
