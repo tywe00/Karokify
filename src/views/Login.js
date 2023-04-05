@@ -13,7 +13,11 @@ export default function Login(){
             </div>
             <div className='app_info half_delay fade-in fancy_text '>
                 <p>Your favourite karaoke app</p>
-                <p>powered by spotify</p>
+                <p>powered by </p>
+                
+                <img className='spotify_logo' src = "https://www.logo.wine/a/logo/Spotify/Spotify-Icon-Logo.wine.svg" alt="SVG"/>
+
+                
 
             </div>
             
