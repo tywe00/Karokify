@@ -8,10 +8,16 @@
     color: white; 
     text-align: center; 
     font-size: 24px; 
-    padding: 10px; 
-    border-radius: 25px; 
+    padding: 15px; 
+    border-radius: 30px; 
     text-decoration: none;
+    box-shadow: 0px 0px 5px 0px rgba(204,81,81,0.73);
+    
 
+}
+.login_btn:hover{
+
+    background-color: #cc5151b3;
 }
 
 .login_btn_center{
@@ -31,6 +37,39 @@
     background-position: center center;
     
 }
+.fancy_text {
+    font-family: 'Pacifico', cursive;
+    font-size: 3em;
+    color: #cc5151b3;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+.full_delay{
+    animation-delay: 1s;
+}
+.half_delay{
+    animation-delay: 500ms;
+}
+
+.fade-in {
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+  }
+
+
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
 .app_info {
     position: absolute;

@@ -7,6 +7,8 @@ const code = new URLSearchParams(window.location.search).get('code');
 
 function App() {
   return (
+
+    
    code ? <HomeView code = {code} /> : <Login />
 
   );
