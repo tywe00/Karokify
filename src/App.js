@@ -3,7 +3,8 @@ import HomeView from './views/homeView';
 
 
 const code = new URLSearchParams(window.location.search).get('code');
-
+localStorage.clear();
+localStorage.setItem("accessToken", code);
 
 function App() {
   return (
