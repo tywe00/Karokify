@@ -26,7 +26,7 @@ function HomeView(props) {
         <Sidebar />
       </div>
       <div className="mainContent">
-        <input class="form-control w-75" type="text" placeholder="Search"/>
+        <input class="form-control" type="text" placeholder="Search"/>
         <table>
           <tbody>
             <tr>{list.map(callbackCB)}</tr>
