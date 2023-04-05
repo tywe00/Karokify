@@ -1,5 +1,6 @@
 import React from 'react';
 import SongBox from '../components/songBox.js'
+import  '../styles/nav.css';
 
 function HomeView(props) {
     const data = {
@@ -8,6 +9,16 @@ function HomeView(props) {
     };
     return (
         <div>
+            <nav >
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Log Out</a></li>
+                </ul>
+            </nav>
+
+
             <h1>{data.title}</h1>
             <p>{data.content}</p>
             <table>

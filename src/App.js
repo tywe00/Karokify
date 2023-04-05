@@ -9,8 +9,8 @@ localStorage.setItem("accessToken", code);
 function App() {
   return (
 
+    code ? <HomeView code = {code} /> : <Login />
     
-   code ? <HomeView code = {code} /> : <Login />
 
   );
 }
