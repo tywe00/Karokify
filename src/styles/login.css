@@ -31,7 +31,7 @@
     transform: scale(2);
     width: 100%;
     height: 100px;
-    background-image: url('../../img/logo.png');
+    background-image: url('../img/logo.png');
     background-repeat: no-repeat;
     background-size:contain;
     background-position: center center;
