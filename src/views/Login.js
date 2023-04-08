@@ -1,4 +1,5 @@
 import React from 'react';
+import { handleLogin } from '../utils/authorization';
 import '../styles/login.css';
 
 
@@ -14,15 +15,12 @@ export default function Login(){
             <div className='app_info half_delay fade-in fancy_text '>
                 <p>Your favourite karaoke app</p>
                 <p>powered by </p>
-                
                 <img className='spotify_logo' src = "https://www.logo.wine/a/logo/Spotify/Spotify-Icon-Logo.wine.svg" alt="SVG"/>
-
-                
-
             </div>
             
             <div className='login_btn_center full_delay fade-in'>
-                <a className='login_btn ' href={AUTH_URL}>LOGIN WITH SPOTIFY</a>
+                <button className='login_btn' onClick={handleLogin}>LogIn with Spotify</button>
+                {/* <a className='login_btn ' href={AUTH_URL}>LOGIN WITH SPOTIFY</a> */}
             </div>
         </div>
 
