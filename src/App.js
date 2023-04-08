@@ -1,19 +1,21 @@
 import Login from './views/Login';
 import { handleCodeExchange } from './utils/authorization';
 import HomeView from './views/homeView';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
 
-  let token;
+  const[token, setToken] = useState('');
 
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get('code');
-    const data = handleCodeExchange(code);
+    handleCodeExchange(code);
+    const newToken = localStorage.getItem('access_token');
+    setToken(newToken);
   }, []);
 
   return (
-    token ? <HomeView code = {token} /> : <Login />
+     token ? <HomeView code = {token} /> : < Login />
   );
 }
 
