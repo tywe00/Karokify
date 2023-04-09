@@ -2,6 +2,7 @@ import React from "react";
 import SongBox from "../components/songBox.js";
 import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
+import "../styles/nav.css";
 
 function HomeView(props) {
   const data = {

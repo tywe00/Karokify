@@ -1,8 +1,19 @@
-//import Login from "./views/Login";
-import HomePresenter from "./presenters/homePresenter";
+import Login from "./views/Login";
+import { handleCodeExchange } from "./utils/authorization";
+import HomeView from "./views/homeView";
+import { useEffect, useState } from "react";
 
 function App() {
-  return <HomePresenter />;
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get("code");
+    handleCodeExchange(code);
+    const newToken = localStorage.getItem("access_token");
+    setToken(newToken);
+  }, []);
+
+  return token ? <HomeView code={token} /> : <Login />;
 }
 
 export default App;
