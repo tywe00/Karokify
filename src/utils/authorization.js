@@ -36,16 +36,17 @@ function handleLogin() {
         let state = generateRandomString(16);
         let scope = 'user-read-private user-read-email';
 
+        localStorage.removeItem('code_verifier');
         localStorage.setItem('code_verifier', codeVerifier);
-        console.log(localStorage);
+        //console.log(localStorage);
         let args = new URLSearchParams({
-        response_type: 'code',
-        client_id: SPOTIFY_CLIENT_ID,
-        scope: scope,
-        redirect_uri: SPOTIFY_REDIRECT_URI,
-        state: state,
-        code_challenge_method: 'S256',
-        code_challenge: codeChallenge
+            response_type: 'code',
+            client_id: SPOTIFY_CLIENT_ID,
+            scope: scope,
+            redirect_uri: SPOTIFY_REDIRECT_URI,
+            state: state,
+            code_challenge_method: 'S256',
+            code_challenge: codeChallenge
     });
         
         window.location = 'https://accounts.spotify.com/authorize?' + args;
@@ -71,13 +72,16 @@ function handleCodeExchange(code) {
         body: body
         })
         .then(response => {
-        if (!response.ok) {
-            throw new Error('HTTP status ' + response.status);
-        }
-        return response.json();
+            if (!response.ok) {
+                throw new Error('HTTP status ' + response.status);
+            }
+            return response.json();
         })
         .then(data => {
             //console.log(data);
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('expires_in');            
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('refresh_token', data.refresh_token);
             localStorage.setItem('expires_in', data.expires_in);

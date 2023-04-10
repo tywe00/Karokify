@@ -6,31 +6,24 @@ import "../styles/nav.css";
 import { getAlbum } from "../utils/api.js";
 
 function HomeView(props) {
-  const accessToken = localStorage.getItem("access_token");
-  const data = {
-    title: "Title",
-    artist: "Artist",
-  };
-
+  
   const [album, setAlbum] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
-      const albumData = await getAlbum();
+      const albumData = await getAlbum(props.code);
       setAlbum(albumData);
     }
-
     fetchData();
   }, []);
 
-  console.log(album);
   return (
     <div className="wrapper">
       <div className="sidebar">
         <Sidebar />
       </div>
       <div className="mainContent">
-        <input class="form-control" type="text" placeholder="Search" />
+        <input className="form-control" type="text" placeholder="Search" />
         <nav>
           <ul>
             <li>
