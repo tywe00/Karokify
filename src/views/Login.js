@@ -9,7 +9,7 @@ export default function Login(){
     
     return (
 
-        <div className='login_page '>
+        <div className='login_page'>
             <div className='logo  fade-in'>
             </div>
             <div className='app_info half_delay fade-in fancy_text '>
@@ -19,7 +19,7 @@ export default function Login(){
             </div>
             
             <div className='login_btn_center full_delay fade-in'>
-                <button className='login_btn' onClick={handleLogin}>LogIn with Spotify</button>
+                <button className='login_btn' onClick={handleLogin}>Login with Spotify</button>
                 {/* <a className='login_btn ' href={AUTH_URL}>LOGIN WITH SPOTIFY</a> */}
             </div>
         </div>

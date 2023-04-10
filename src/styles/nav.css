@@ -20,12 +20,12 @@ nav {
   }
   
   nav ul li a {
-    color: #cc5151b3;
+    color: #eeeeee;
     text-decoration: none;
   }
 
   nav ul li a:hover{
-    color: red;
+    color: #5D3FD3;
   }
   
   
