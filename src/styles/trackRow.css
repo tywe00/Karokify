@@ -1,0 +1,17 @@
+.trackRow {
+    display: inline-block;
+    width: 100%;
+    margin-left: 20px;
+    font-family: Helvetica, sans-serif;
+    font-size: 0.9em;
+    vertical-align: middle;
+    color: white;
+  }
+  
+  .albumArt {
+    height: 50px;
+    width: 50px;
+    background-color: aquamarine;
+    margin-right: 10px;
+  }
+  

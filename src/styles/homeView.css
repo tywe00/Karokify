@@ -8,7 +8,7 @@
     grid-area: sidebar;
     grid-column: 1;
     grid-row: 1;
-    width: 320px;
+    width: 280px;
     height: 100%;
     background-color: #121212;
   }
@@ -19,15 +19,21 @@
     grid-row: 1;
     width: 100%;
     background-color: #212121;
+    overflow-y: scroll;
   }
 
   .sidebar-logo {
-    width: 250px;
+    width: 210px;
     margin: 35px;
   }
 
   .form-control {
     width: 250px; 
+    height: 25px;
     margin-left: 35px;
     margin-top: 35px;
+  }
+
+  .searchResults {
+    width: 500px;
   }

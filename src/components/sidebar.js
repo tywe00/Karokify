@@ -6,10 +6,29 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <img className="sidebar-logo" src={require("../assets/karaokify.png")} />
-      <div id="test">asd</div>
+      <div className="playlists">
+        <tr>
+          <p>Playlist</p>
+        </tr>
+        <tr>
+          <p>Another playlist</p>
+        </tr>
+        <tr>
+          <p>Karaoke songs</p>
+        </tr>
+        <tr>
+          <p>Daft Punk</p>
+        </tr>
+        <tr>
+          <p>Lesspoint hits</p>
+        </tr>
+        <tr>
+          <p>Singing in the car</p>
+        </tr>
+      </div>
       <img
         className="album-art"
-        src="https://www.udiscovermusic.com/wp-content/uploads/2022/01/The-Weeknd.jpg"
+        src="https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2"
       />
       <PlayerControls />
     </div>

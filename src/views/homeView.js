@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SongBox from "../components/songBox.js";
+import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
+import 'bootstrap';
 import "../styles/homeView.css";
 import "../styles/nav.css";
 import { getAlbum } from "../utils/api.js";
@@ -42,7 +44,7 @@ function HomeView(props) {
         </nav>
 
         {album ? (
-          <table>
+          <table className="searchResults">
             <tbody>
               <tr>{album.tracks.items.map(trackRenderCB)}</tr>
             </tbody>
@@ -56,9 +58,9 @@ function HomeView(props) {
 
   function trackRenderCB(track) {
     return (
-      <td key={track.id}>
-        <SongBox data={{ track, ...album.images }} />
-      </td>
+      <tr key={track.id}>
+        <TrackRow data={{ track, ...album.images }} />
+      </tr>
     );
   }
 }
