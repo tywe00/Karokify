@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import SongBox from "../components/songBox.js";
 import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
-import 'bootstrap';
 import "../styles/homeView.css";
 import "../styles/nav.css";
 import { getAlbum } from "../utils/api.js";
