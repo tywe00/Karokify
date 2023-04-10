@@ -17,13 +17,31 @@ What is left to do is to implement the fundamental functionality of the app. So 
 ## Project file structure
 
 **src/assets** and **src/img**: All images used
+
+
 **src/components**: All custom components we created
+
+
 **src/presenters**: Presenters for views
+
+
 **src/styles**: All css files.
+
+
 **src/utils**: Api and authorization functions
+
+
 **src/views**: All views used in the project
 
+
+
 These will all be used later for **redux**.
+
+
 **src/actions**:
+
+
 **src/store**:
+
+
 **src/reducers**:
