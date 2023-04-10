@@ -35,6 +35,8 @@ What is left to do is to implement the fundamental functionality of the app. So 
 
 
 
+
+
 These will all be used later for **redux**.
 
 
