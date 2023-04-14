@@ -4,16 +4,19 @@ import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
-import { getAlbum } from "../utils/api.js";
+import { getAlbum, getPlaylists } from "../utils/api.js";
 
 function HomeView(props) {
   
   const [album, setAlbum] = useState(null);
+  const [playlistsData, setPlaylists] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const albumData = await getAlbum(props.code);
+      const playlistsData = await getPlaylists(props.code);
       setAlbum(albumData);
+      setPlaylists(playlistsData);
     }
     fetchData();
   }, []);
@@ -21,7 +24,7 @@ function HomeView(props) {
   return (
     <div className="wrapper">
       <div className="sidebar">
-        <Sidebar />
+        {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
       </div>
       <div className="mainContent">
         <input className="form-control" type="text" placeholder="Search" />
