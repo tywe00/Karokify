@@ -14,11 +14,11 @@ async function getAlbum() {
 
 export { getAlbum }; */
 
-const accessToken = localStorage.getItem('access_token');
+//const accessToken = localStorage.getItem('access_token');
 const url = 'https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc';
 
 
-function getAlbum() {
+function getAlbum(accessToken) {
     return fetch(url, {
         method: 'GET',
         headers: {

@@ -19,10 +19,10 @@ async function generateCodeChallenge(codeVerifier) {
     }
   
     function base64encode(string) {
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_')
+            .replace(/=+$/, '');
     }
 
     const hashed = await sha256(codeVerifier);
@@ -69,7 +69,7 @@ function handleCodeExchange(code) {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: body
+        body : body
         })
         .then(response => {
             if (!response.ok) {
