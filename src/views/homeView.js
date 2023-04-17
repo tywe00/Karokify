@@ -7,7 +7,6 @@ import "../styles/nav.css";
 import { getAlbum } from "../utils/api.js";
 
 function HomeView(props) {
-  
   const [album, setAlbum] = useState(null);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import Login from "./views/Login";
 import { handleCodeExchange } from "./utils/authorization";
 import HomeView from "./views/homeView";
+import KaraokeView from "./views/karaokeView.js";
 import { useEffect, useState } from "react";
 
 function App() {

@@ -1,6 +1,7 @@
 import React from "react";
 import PlayerControls from "./playerControls";
 import "../styles/sidebar.css";
+import Player from "./player";
 
 function Sidebar() {
   return (
@@ -26,13 +27,20 @@ function Sidebar() {
           <p>Singing in the car</p>
         </tr>
       </div>
-      <img
-        className="album-art"
-        src="https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2"
-      />
+
+      <div>
+        <Player trackURI={"spotify:track:7lEptt4wbM0yJTvSG5EBof"} />
+      </div>
+
       <PlayerControls />
     </div>
   );
 }
 
 export default Sidebar;
+
+/*
+<img
+        className="album-art"
+        src="https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2"
+      />*/
