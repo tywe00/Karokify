@@ -29,7 +29,6 @@ function Sidebar() {
       </div>
 
       <div>
-        <Player trackURI={"spotify:track:7lEptt4wbM0yJTvSG5EBof"} />
       </div>
 
       <PlayerControls />

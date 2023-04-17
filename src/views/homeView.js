@@ -5,6 +5,8 @@ import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
 import { getAlbum } from "../utils/api.js";
+import Player from "../components/player";
+
 
 function HomeView(props) {
   const [album, setAlbum] = useState(null);
@@ -50,6 +52,7 @@ function HomeView(props) {
         ) : (
           <p>Loading...</p>
         )}
+        <Player trackURI={"spotify:track:68Dni7IE4VyPkTOH9mRWHr"} />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Lrc } from "react-lrc";
-import { parse } from "clrc";
 import "../styles/karaoke.css";
 
 const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
