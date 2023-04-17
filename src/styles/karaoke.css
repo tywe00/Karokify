@@ -1,0 +1,16 @@
+.lrc {
+  color: #343434;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.karaoke {
+  background-color: #212121;
+}
+
+.react-lrc-line {
+  color: #343434;
+  background-color: #343434;
+}
