@@ -14,20 +14,35 @@ async function getAlbum() {
 
 export { getAlbum }; */
 
-const accessToken = localStorage.getItem('access_token');
-const url = 'https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc';
-
+const accessToken = localStorage.getItem("access_token");
 
 function getAlbum() {
-    return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      })
-      .then(response => response.json())
+  const url = "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc";
+  return (
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((response) => response.json())
       //.then(data => console.log(data))
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error))
+  );
 }
 
-export {getAlbum};
+async function getCurrentPlaybackPosition() {
+  const url = "https://api.spotify.com/v1/me/player";
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
+
+export { getAlbum, getCurrentPlaybackPosition };

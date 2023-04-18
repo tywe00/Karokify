@@ -1,30 +1,68 @@
 import React, { useState, useEffect } from "react";
 import { Lrc } from "react-lrc";
 import "../styles/karaoke.css";
+import Player from "../components/player";
+import { getCurrentPlaybackPosition } from "../utils/api";
 
 const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
-const trackID = "11dFghVXANMlKmJXsNCbNl";
+const trackID = "08zJpaUQVi9FrKv2e32Bah";
 const api = URL + trackID + "&format=lrc";
 
 function Karaoke(props) {
   const [lyrics, setLyrics] = useState([]);
   const [activeLine, setActiveLine] = useState(-1);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [playback, setPlayback] = useState(0);
+
+  function findActiveLineIndex(lines, currentPlaybackTime) {
+    let activeLineIndex = -1;
+    let smallestDiff = Number.MAX_SAFE_INTEGER;
+
+    for (let i = 0; i < lines.length; i++) {
+      const lineStartTime = lines[i].startMillisecond;
+      const diff = Math.abs(currentPlaybackTime - lineStartTime);
+
+      if (diff < smallestDiff) {
+        activeLineIndex = i;
+        smallestDiff = diff;
+      }
+    }
+
+    return activeLineIndex;
+  }
+
+  function closeToTime(lineTime, playbackTime, ms) {
+    return Math.abs(lineTime - playbackTime) < ms;
+  }
+
+  function closeToLine(lineNumber, playbackLine, ms) {
+    return Math.abs(lineNumber - playbackLine) <= 2;
+  }
 
   function lineRenderer(data) {
     const currentLineNumber = data.line.lineNumber;
-    const active = true ? currentLineNumber === activeLine : false;
-    return (
-      <div
-        key={data.line.id}
-        style={{
-          color: active ? "red" : "black",
-          backgroundColor: active ? "blue" : "white",
-          fontWeight: active ? "bold" : "normal",
-        }}
-      >
-        {data.line.content}
-      </div>
-    );
+    //const active = true ? currentLineNumber === activeLine : false;
+    const lineTime = data.line.startMillisecond;
+    const active = activeLine === currentLineNumber ? true : false;
+    if (closeToTime(lineTime, playback, 250)) {
+      setActiveLine(data.line.lineNumber);
+    }
+
+    if (closeToLine(currentLineNumber, activeLine)) {
+      return (
+        <div
+          key={data.line.id}
+          style={{
+            fontSize: active ? "25px" : "20px",
+            color: active ? "black" : "white",
+            backgroundColor: active ? "#FFFFFF" : "#212121",
+            fontWeight: active ? "bold" : "normal",
+          }}
+        >
+          {data.line.content}
+        </div>
+      );
+    }
   }
 
   function CB(line) {
@@ -32,13 +70,6 @@ function Karaoke(props) {
     if (line.words.length === 1) return;
     if (!line.timeTag || !line.words) return;
     return String("[" + line.timeTag + "]" + line.words);
-  }
-
-  function increment() {
-    console.log(activeLine);
-    setTimeout(() => {
-      setActiveLine(activeLine + 1);
-    }, 3000);
   }
 
   useEffect(() => {
@@ -55,12 +86,23 @@ function Karaoke(props) {
       });
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getCurrentPlaybackPosition().then((data) => {
+        setPlayback(data.progress_ms);
+      });
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [playback]);
+
   return (
-    increment(),
-    (
-      <div>
-        {lyrics.length != 0 ? (
-          <div className="karaoke">
+    <div>
+      {lyrics.length !== 0 ? (
+        <div className="karaoke">
+          <div>
             <Lrc
               className="lrc"
               style={{ overflow: "hidden !important" }}
@@ -68,11 +110,14 @@ function Karaoke(props) {
               lineRenderer={lineRenderer}
             />
           </div>
-        ) : (
-          <h1>LOADING...</h1>
-        )}
-      </div>
-    )
+          <div className="player-wrapper">
+            <Player trackURI={"spotify:track:08zJpaUQVi9FrKv2e32Bah"} />
+          </div>
+        </div>
+      ) : (
+        <h1>LOADING...</h1>
+      )}
+    </div>
   );
 }
 
