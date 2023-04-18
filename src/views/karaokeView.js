@@ -5,7 +5,7 @@ import Player from "../components/player";
 import { getCurrentPlaybackPosition } from "../utils/api";
 
 const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
-const trackID = "08zJpaUQVi9FrKv2e32Bah";
+const trackID = "4LloVtxNZpeh7q7xdi1DQc";
 const api = URL + trackID + "&format=lrc";
 
 function Karaoke(props) {
@@ -36,7 +36,7 @@ function Karaoke(props) {
   }
 
   function closeToLine(lineNumber, playbackLine, ms) {
-    return Math.abs(lineNumber - playbackLine) <= 2;
+    return Math.abs(lineNumber - playbackLine) <= 3;
   }
 
   function lineRenderer(data) {
@@ -53,10 +53,16 @@ function Karaoke(props) {
         <div
           key={data.line.id}
           style={{
-            fontSize: active ? "25px" : "20px",
-            color: active ? "black" : "white",
-            backgroundColor: active ? "#FFFFFF" : "#212121",
+            fontSize: active ? "40px" : "30px",
+            color: active ? "#eeeeee" : "#888888",
+            //backgroundColor: active ? "#FFFFFF" : "#212121",
             fontWeight: active ? "bold" : "normal",
+            lineHeight: active ? "2em" : "2em",
+            margin: "20px",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            textAlign: "center",
           }}
         >
           {data.line.content}

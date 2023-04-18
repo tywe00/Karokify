@@ -1,9 +1,11 @@
 .karaoke {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 93vh;
+  justify-content: center;
   background-color: #212121;
 }
+
 
 .lrc {
   color: #343434;

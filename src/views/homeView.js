@@ -20,6 +20,7 @@ function HomeView(props) {
   }, []);
 
   return (
+    <div classname="homeView">
     <div className="wrapper">
       <div className="sidebar">
         <Sidebar />
@@ -52,8 +53,10 @@ function HomeView(props) {
         ) : (
           <p>Loading...</p>
         )}
-        <Player trackURI={"spotify:track:68Dni7IE4VyPkTOH9mRWHr"} />
+        
       </div>
+    </div>
+    <Player trackURI={"spotify:track:68Dni7IE4VyPkTOH9mRWHr"} />
     </div>
   );
 

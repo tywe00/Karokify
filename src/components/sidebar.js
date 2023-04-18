@@ -27,11 +27,6 @@ function Sidebar() {
           <p>Singing in the car</p>
         </tr>
       </div>
-
-      <div>
-      </div>
-
-      <PlayerControls />
     </div>
   );
 }

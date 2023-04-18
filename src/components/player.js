@@ -10,6 +10,20 @@ export default function Player(props) {
           token={token}
           uris={props.trackURI ? [props.trackURI] : []}
           theme="black"
+          layout="responsive"
+          persistDeviceSelection="false"
+          hideAttribution="true"
+          styles={{activeColor: "blue",
+                  color: "#eeeeee",
+                bgColor: "#303030",
+              trackArtistColor: "#666666",
+            trackNameColor: "#999999",
+          sliderHandleColor: "#eeeeee",
+        sliderTrackColor: "grey",
+      sliderColor: "#eeeeee",
+      height: "80px",
+      
+    }}
         />
       </div>
     );
