@@ -14,7 +14,7 @@ function App() {
     setToken(newToken);
   }, []);
 
-  return token ? <HomeView code={token} /> : <Login />;
+  return token ? <KaraokeView code={token} /> : <Login />;
 }
 
 export default App;
