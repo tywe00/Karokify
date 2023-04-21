@@ -13,8 +13,9 @@ function HomeView(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const albumData = await getAlbum(props.code);
-      const playlistsData = await getPlaylists(props.code);
+      const accessToken = localStorage.getItem('access_token');
+      const albumData = await getAlbum(accessToken);
+      const playlistsData = await getPlaylists(accessToken);
       setAlbum(albumData);
       setPlaylists(playlistsData);
     }
