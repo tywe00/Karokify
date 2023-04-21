@@ -5,11 +5,13 @@ import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
 import { getAlbum, getPlaylists } from "../utils/api.js";
+import { useNavigate } from "react-router-dom";
 
 function HomeView(props) {
   
   const [album, setAlbum] = useState(null);
   const [playlistsData, setPlaylists] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -31,17 +33,9 @@ function HomeView(props) {
         <input className="form-control" type="text" placeholder="Search" />
         <nav>
           <ul>
+            
             <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Settings</a>
-            </li>
-            <li>
-              <a href="#">Log Out</a>
+              <a href="#" onClick={logOutUser}>log out</a>
             </li>
           </ul>
         </nav>
@@ -65,6 +59,12 @@ function HomeView(props) {
         <TrackRow data={{ track, ...album.images }} />
       </tr>
     );
+  }
+
+  function logOutUser() {
+    localStorage.clear();
+    navigate('/');
+    
   }
 }
 
