@@ -31,6 +31,28 @@ function getAlbum() {
       .catch(error => console.error(error));
 }
 
+/* function getPlaylists() {
+  fetch(playlistUrl, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+    const playlists = data.items.map(item => {
+      return {
+        name: item.name,
+        id: item.tracks.href.split('playlists/')[1]
+      };
+    });
+    return playlists;
+  }
+  )
+} */
+
 async function getPlaylists() {
   const response = await fetch(playlistUrl, {
     method: 'GET',

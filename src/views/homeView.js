@@ -19,7 +19,7 @@ function HomeView(props) {
       setPlaylists(playlistsData);
     }
     fetchData();
-  }, []);
+  }, [album, playlistsData]);
 
   return (
     <div className="wrapper">
