@@ -86,6 +86,25 @@ async function getPlaylistTracks(playlistId, accessToken) {
   return data.items;
 }
 
+async function getSearchResults(accessToken, searchTerm) {
+  const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch search results');
+  }
+
+  const data = await response.json();
+
+  console.log(data.tracks.items)
+
+  return data.tracks.items;
+}
 
 
-export {getAlbum, getPlaylists, getPlaylistTracks};
+
+export {getAlbum, getPlaylists, getPlaylistTracks, getSearchResults};

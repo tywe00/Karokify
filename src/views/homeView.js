@@ -4,13 +4,14 @@ import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
-import { getAlbum, getPlaylists } from "../utils/api.js";
+import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 
 function HomeView(props) {
   
   const [album, setAlbum] = useState(null);
   const [playlistsData, setPlaylists] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ function HomeView(props) {
         {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
       </div>
       <div className="mainContent">
-        <input className="form-control" type="text" placeholder="Search" />
+        <input onChange={handleSearch} className="form-control" type="text" placeholder="Search" />
         <nav>
           <ul>
             
@@ -65,6 +66,19 @@ function HomeView(props) {
     localStorage.clear();
     navigate('/');
     
+  }
+
+  async function handleSearch(e) {
+    if (e.target.value.length > 2) {
+
+      e.preventDefault();
+      const searchTerm = e.target.value;
+      const accessToken = localStorage.getItem('access_token');
+      const searchResults = await getSearchResults(accessToken, searchTerm);
+      setSearchResults(searchResults);
+    }
+    
+
   }
 }
 
