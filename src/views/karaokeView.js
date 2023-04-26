@@ -5,8 +5,9 @@ import Player from "../components/player";
 import { getCurrentPlaybackPosition } from "../utils/api";
 
 const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
-const trackID = "08zJpaUQVi9FrKv2e32Bah";
+const trackID = "5dNfHmqgr128gMY2tc5CeJ";
 const api = URL + trackID + "&format=lrc";
+//https://open.spotify.com/track/5dNfHmqgr128gMY2tc5CeJ?si=ad8c13bb270a4c4e
 
 function Karaoke(props) {
   const [lyrics, setLyrics] = useState([]);
@@ -117,7 +118,7 @@ function Karaoke(props) {
             />
           </div>
           <div className="player-wrapper">
-            <Player trackURI={"spotify:track:08zJpaUQVi9FrKv2e32Bah"} />
+            <Player trackURI={"spotify:track:" + trackID} />
           </div>
         </div>
       ) : (
