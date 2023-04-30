@@ -4,22 +4,26 @@ import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
-import { getAlbum, getPlaylists } from "../utils/api.js";
+import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
+import { useNavigate } from "react-router-dom";
 
 function HomeView(props) {
   
   const [album, setAlbum] = useState(null);
   const [playlistsData, setPlaylists] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
-      const albumData = await getAlbum(props.code);
-      const playlistsData = await getPlaylists(props.code);
+      const accessToken = localStorage.getItem('access_token');
+      const albumData = await getAlbum(accessToken);
+      const playlistsData = await getPlaylists(accessToken);
       setAlbum(albumData);
       setPlaylists(playlistsData);
     }
     fetchData();
-  }, []);
+  }, [album, playlistsData]);
 
   return (
     <div className="wrapper">
@@ -27,20 +31,12 @@ function HomeView(props) {
         {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
       </div>
       <div className="mainContent">
-        <input className="form-control" type="text" placeholder="Search" />
+        <input onChange={handleSearch} className="form-control" type="text" placeholder="Search" />
         <nav>
           <ul>
+            
             <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Settings</a>
-            </li>
-            <li>
-              <a href="#">Log Out</a>
+              <a href="#" onClick={logOutUser}>log out</a>
             </li>
           </ul>
         </nav>
@@ -64,6 +60,25 @@ function HomeView(props) {
         <TrackRow data={{ track, ...album.images }} />
       </tr>
     );
+  }
+
+  function logOutUser() {
+    localStorage.clear();
+    navigate('/');
+    
+  }
+
+  async function handleSearch(e) {
+    if (e.target.value.length > 2) {
+
+      e.preventDefault();
+      const searchTerm = e.target.value;
+      const accessToken = localStorage.getItem('access_token');
+      const searchResults = await getSearchResults(accessToken, searchTerm);
+      setSearchResults(searchResults);
+    }
+    
+
   }
 }
 
