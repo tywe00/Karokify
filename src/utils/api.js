@@ -41,7 +41,6 @@ async function getCurrentPlaybackPosition() {
     },
   });
   const data = await response.json();
-  console.log(data);
   return data;
 }
 

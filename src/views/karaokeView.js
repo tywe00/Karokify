@@ -5,9 +5,9 @@ import Player from "../components/player";
 import { getCurrentPlaybackPosition } from "../utils/api";
 
 const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
-const trackID = "5dNfHmqgr128gMY2tc5CeJ";
-const api = URL + trackID + "&format=lrc";
-//https://open.spotify.com/track/5dNfHmqgr128gMY2tc5CeJ?si=ad8c13bb270a4c4e
+const trackID = "6ich2xMH5AR39V85miIAN8";
+//const api = URL + trackID + "&format=lrc";
+//https://open.spotify.com/track/6ich2xMH5AR39V85miIAN8?si=a2160d7cc4394b40
 
 function Karaoke(props) {
   const [lyrics, setLyrics] = useState([]);
@@ -42,7 +42,6 @@ function Karaoke(props) {
 
   function lineRenderer(data) {
     const currentLineNumber = data.line.lineNumber;
-    //const active = true ? currentLineNumber === activeLine : false;
     const lineTime = data.line.startMillisecond;
     const active = activeLine === currentLineNumber ? true : false;
     if (closeToTime(lineTime, playback, 250)) {
@@ -56,7 +55,6 @@ function Karaoke(props) {
           style={{
             fontSize: active ? "40px" : "30px",
             color: active ? "#eeeeee" : "#888888",
-            //backgroundColor: active ? "#FFFFFF" : "#212121",
             fontWeight: active ? "bold" : "normal",
             lineHeight: active ? "2em" : "2em",
             margin: "20px",
@@ -80,7 +78,9 @@ function Karaoke(props) {
   }
 
   useEffect(() => {
-    fetch(api)
+    console.log("PROPS:");
+    console.log(props);
+    fetch(URL + props.props + "&format=lrc")
       .then((response) => response.json())
       .then((data) => {
         const lyrs = data.lines.map(CB);
@@ -117,9 +117,7 @@ function Karaoke(props) {
               lineRenderer={lineRenderer}
             />
           </div>
-          <div className="player-wrapper">
-            <Player trackURI={"spotify:track:" + trackID} />
-          </div>
+          <div className="player-wrapper"></div>
         </div>
       ) : (
         <h1>LOADING...</h1>
