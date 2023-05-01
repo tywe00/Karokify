@@ -1,25 +1,24 @@
 .karaoke {
-  display: flex;
-  flex-direction: column;
-  min-height: 93vh;
+  margin-top: 80px;
+  height: calc(100% - 160px);
   justify-content: center;
-  background-color: #212121;
+  
+}
+
+.lyrics {
+  position: relative;
+  height: auto;
+  width: 100%;
+  display: inline-block;
+  justify-content: center;
 }
 
 
-.lrc {
+/* .lrc {
   color: #343434;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.player-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #212121;
-}
+} */

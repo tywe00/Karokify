@@ -14,6 +14,7 @@ export default function Player(props) {
           persistDeviceSelection={props.persistDeviceSelection}
           hideAttribution="true"
           play={props.play}
+          //customComponents={customComponents}
           styles={{
             activeColor: "blue",
             color: "#eeeeee",

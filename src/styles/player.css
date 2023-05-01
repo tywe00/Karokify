@@ -1,0 +1,17 @@
+.spotify-player {
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-controls {
+    margin-right: 16px;
+  }
+  
+  .volume-controls {
+    margin-left: 16px;
+  }
+  
+  .my-button {
+    /* add styles for the button */
+  }
+  

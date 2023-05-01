@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SongBox from "../components/songBox.js";
 import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
 import Karaoke from "./karaokeView.js";
@@ -7,6 +6,9 @@ import "../styles/homeView.css";
 import "../styles/nav.css";
 import { getAlbum } from "../utils/api.js";
 import Player from "../components/player";
+import Navbar from "../components/navbar.js";
+import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
+
 
 function HomeView(props) {
   const [playState, setPlayState] = useState(false);
@@ -45,37 +47,35 @@ function HomeView(props) {
   });
 
   return (
-    <div classname="homeView">
+    <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
           <Sidebar />
         </div>
         <div className="mainContent">
-          <input className="form-control" type="text" placeholder="Search" />
-          <nav>
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">About</a>
-              </li>
-              <li>
-                <a href="#">Settings</a>
-              </li>
-              <li>
-                <a href="#">Log Out</a>
-              </li>
-            </ul>
-          </nav>
-          {useKaraoke ? (
+          <div className="navbar">
+            <Navbar/>
+          </div>
+          
+          { useKaraoke? (
+            <button className="lyricsToggle" 
+            onClick={()=>setUseKaraoke(!useKaraoke)}>
+            <BsChatSquareQuoteFill />
+          </button>
+          ) : (
+            <button className="lyricsToggle" 
+            onClick={()=>setUseKaraoke(!useKaraoke)}>
+            <BsChatSquareQuote />
+          </button>
+          )}
+          { useKaraoke? ( 
             <Karaoke props={track.id} />
           ) : album ? (
-            <table className="searchResults">
+            <div className="searchResults"><table>
               <tbody>
                 <tr>{album.tracks.items.map(trackRenderCB)}</tr>
               </tbody>
-            </table>
+            </table></div>
           ) : (
             <p>Loading...</p>
           )}

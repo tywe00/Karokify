@@ -17,7 +17,7 @@ export { getAlbum }; */
 const accessToken = localStorage.getItem("access_token");
 
 function getAlbum() {
-  const url = "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc";
+  const url = "https://api.spotify.com/v1/albums/4xdRjOhY9NHmMpI7U3e2c3";
   return (
     fetch(url, {
       method: "GET",

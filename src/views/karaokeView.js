@@ -57,10 +57,10 @@ function Karaoke(props) {
             color: active ? "#eeeeee" : "#888888",
             fontWeight: active ? "bold" : "normal",
             lineHeight: active ? "2em" : "2em",
-            margin: "20px",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
+            //margin: "20px",
+            //display: "flex",
+            //justifyContent: "center",
+            //flexDirection: "column",
             textAlign: "center",
           }}
         >
@@ -72,7 +72,7 @@ function Karaoke(props) {
 
   function CB(line) {
     if (!line) return;
-    if (line.words.length === 1) return;
+    //if (line.words.length === 1) return;
     if (!line.timeTag || !line.words) return;
     return String("[" + line.timeTag + "]" + line.words);
   }
@@ -109,7 +109,7 @@ function Karaoke(props) {
     <div>
       {lyrics.length !== 0 ? (
         <div className="karaoke">
-          <div>
+          <div className="lyrics">
             <Lrc
               className="lrc"
               style={{ overflow: "hidden !important" }}
@@ -117,7 +117,6 @@ function Karaoke(props) {
               lineRenderer={lineRenderer}
             />
           </div>
-          <div className="player-wrapper"></div>
         </div>
       ) : (
         <h1>LOADING...</h1>
