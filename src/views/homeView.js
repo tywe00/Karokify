@@ -41,10 +41,10 @@ function HomeView(props) {
           </ul>
         </nav>
 
-        {searchResults ? (
+        {album ? (
           <table className="searchResults">
             <tbody>
-              <tr>{searchResults.map(trackRenderCB)}</tr>
+              <tr>{album.tracks.items.map(trackRenderCB)}</tr>
             </tbody>
           </table>
         ) : (
@@ -57,7 +57,7 @@ function HomeView(props) {
   function trackRenderCB(track) {
     return (
       <tr key={track.id}>
-        <TrackRow data={{ track }} />
+        <TrackRow data={{ track, ...album.images }} />
       </tr>
     );
   }
@@ -75,9 +75,7 @@ function HomeView(props) {
       const searchTerm = e.target.value;
       const accessToken = localStorage.getItem('access_token');
       const searchResults = await getSearchResults(accessToken, searchTerm);
-      console.log()
       setSearchResults(searchResults);
-
     }
     
 
