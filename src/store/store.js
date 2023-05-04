@@ -1,11 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { playlistReducer } from "../slices/playlistSlice";
 import { playHistoryReducer } from "../slices/recentTracksSlice";
+import { userinfoReducer } from "../slices/userinfoSlice";
+import { userSpotifyPlistReducer } from "../slices/userSpotifyPlist";
+
 
 const store = configureStore({
     reducer: {
-        playlist : playlistReducer,
+        userinfo : userinfoReducer,
         playedHistory : playHistoryReducer,
+        userSpotifyPlayList : userSpotifyPlistReducer,
     }
 })
 

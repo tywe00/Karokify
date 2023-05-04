@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
-import SongBox from "../components/songBox.js";
 import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
-import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
+import { getPlaylists, getSearchResults } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserSpotifyPlaylist } from "../slices/userinfoSlice.js";
+import { fetchPlayLists } from "../slices/userSpotifyPlist.js";
 
 function HomeView(props) {
   
-  const [album, setAlbum] = useState(null);
   const [playlistsData, setPlaylists] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userPlayList = useSelector((state) => state.userSpotifyPlayList.playlists);
 
   useEffect(() => {
-    async function fetchData() {
-      const accessToken = localStorage.getItem('access_token');
-      const albumData = await getAlbum(accessToken);
-      const playlistsData = await getPlaylists(accessToken);
-      setAlbum(albumData);
-      setPlaylists(playlistsData);
-    }
-    fetchData();
-  }, [album, playlistsData]);
+   /*  getPlaylists(accessToken).then(data => {
+      dispatch(setUserSpotifyPlaylist(data));
+      setPlaylists(data);
+    }); */
+    console.log("this is from homeview")
+    console.log(userPlayList)
+    setPlaylists(userPlayList);
+  }, [userPlayList]);  //dont add playlistsData as dependency, it will trigger many api requests!!
 
   return (
     <div className="wrapper">
@@ -36,7 +38,7 @@ function HomeView(props) {
           <ul>
             
             <li>
-              <a href="#" onClick={logOutUser}>log out</a>
+              <a href="#" onClick={logOutUser}>Log out</a>
             </li>
           </ul>
         </nav>

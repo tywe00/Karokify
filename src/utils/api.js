@@ -39,9 +39,11 @@ function getPlaylists(accessToken) {
     }
   })
   .then(response => {
-    return response.json()
+    return response.json();
   })
   .then(data => {
+    /* console.log("this is the list of playlists from spotify");
+    console.log(data); */
     const playlists = data.items.map(item => {
       return {
         name: item.name,

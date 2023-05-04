@@ -2,24 +2,28 @@ import React from "react";
 import { useState,useEffect } from "react";
 import { handleCodeExchange } from "../utils/authorization";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setAccessToken, setRefreshToken, setUserSpotifyPlaylist } from "../slices/userinfoSlice";
+import { fetchPlayLists } from "../slices/userSpotifyPlist";
 
 function LoadingPage() {
 
-    const [token, setToken] = useState("");
+    const [codeFlag, setcodeFlag] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const code = new URLSearchParams(window.location.search).get("code");
         handleCodeExchange(code).then(data => {
-            setToken(data.access_token);
-            console.log("this is from loadingpage");
-            console.log(data.access_token);
-            console.log(data.refresh_token);
-            if(token) {
-                navigate("/homeView");
-            }
+            dispatch(setAccessToken(data.access_token));
+            dispatch(setRefreshToken(data.refresh_token));
+            dispatch(fetchPlayLists(data.access_token));
+            setcodeFlag(true);
         });
-    }, [token]);
+        if(codeFlag) {
+            navigate("/homeView");
+        }
+    }, [codeFlag]);
 
     return(
         <h1>Loading your home page ...</h1>
