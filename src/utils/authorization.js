@@ -19,10 +19,10 @@ async function generateCodeChallenge(codeVerifier) {
     }
   
     function base64encode(string) {
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_')
+            .replace(/=+$/, '');
     }
 
     const hashed = await sha256(codeVerifier);
@@ -64,12 +64,12 @@ function handleCodeExchange(code) {
       code_verifier: codeVerifier
     });
 
-    fetch('https://accounts.spotify.com/api/token', {
+    return fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: body
+        body : body
         })
         .then(response => {
             if (!response.ok) {
@@ -84,10 +84,12 @@ function handleCodeExchange(code) {
             localStorage.removeItem('expires_in');            
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('refresh_token', data.refresh_token);
-            localStorage.setItem('expires_in', data.expires_in);
+            localStorage.setItem('expires_in', data.expires_in); 
+            return data;
         })
         .catch(error => {
-        console.error('Error:', error);
+        //console.error('Error:', error);
+            return error;
     });
 
 }  

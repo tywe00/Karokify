@@ -8,15 +8,12 @@ function TrackRow(props) {
 
   return (
     <div className="trackRow">
-      <tr>
-        <td>
-          <img className="albumArt" src={props.data[0].url}></img>
-        </td>
-        <td>
-          <p>{props.data.track.name}</p>
-        </td>
-      </tr>
-      <hr className="divider"></hr>
+        <tr>
+            <td><img className="albumArt" src={props.data.track.album.images[0].url}></img></td>
+            <td><p>{props.data.track.name}</p></td>
+            <td><p>{props.data.track.artist}</p></td>
+        </tr>
+        <hr className="divider"></hr>
     </div>
   );
 }
