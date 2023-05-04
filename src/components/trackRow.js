@@ -5,7 +5,7 @@ function TrackRow(props) {
   //function handleRowClick(event) {
   //  console.log(props.data.track);
   //}
-
+  console.log(props);
   return (
     <div className="trackRow">
         <tr>

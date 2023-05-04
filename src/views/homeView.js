@@ -60,18 +60,21 @@ function HomeView(props) {
         {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
         </div>
         <div className="mainContent">
-          <div className="navbar">
-            <Navbar/>
-          </div>
-<input onChange={handleSearch} className="form-control" type="text" placeholder="Search" />
-        <nav>
-          <ul>
-            
-            <li>
-              <a href="#" onClick={logOutUser}>log out</a>
-            </li>
-          </ul>
-        </nav>
+        <div className="navbar">
+      <div className="searchBar"><input className="form-control" onChange={handleSearch} type="text" placeholder="Search" /></div>
+      <div className="menu">
+      <nav>
+        <ul>
+          <li>
+            <a href="#">Home</a>
+          </li>
+          <li>
+            <a href="#">Log Out</a>
+          </li>
+        </ul>
+      </nav>
+      </div>
+    </div>
           
           { useKaraoke? (
             <button className="lyricsToggle" 
@@ -87,14 +90,15 @@ function HomeView(props) {
           { useKaraoke? ( 
             <Karaoke props={track.id} />
           ) : searchResults ? (
-            <table className="searchResults">
+            <div className="searchResults">
               <tbody>
-                <tr>{album.tracks.items.map(trackRenderCB)}</tr>
+                <tr>{searchResults.map(trackRenderCB)}</tr>
               </tbody>
-            </table></div>
+            </div>
           ) : (
             <p>Loading...</p>
           )}
+        </div>
         </div>
       {player}
     </div>
@@ -109,7 +113,7 @@ function HomeView(props) {
 
     return (
       <tr key={track.id} onClick={handleRowClick}>
-        <TrackRow data={{ track, ...album.images }} />
+        <TrackRow data={{ track }} />
       </tr>
     );
   }
