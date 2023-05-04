@@ -29,9 +29,23 @@ nav {
 
   .navbar {
     height: 80px;
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+    justify-content: space-between;
   }
 
   .form-control {
     margin-right: auto;
     display: inline-block;
+  }
+
+  .searchBar {
+    /*background-color: #5D3FD3;*/
+  }
+
+  .menu {
+    /*background-color: aquamarine;*/
+    justify-content: center;
+    padding-top: 30px;
   }

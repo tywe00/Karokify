@@ -4,7 +4,8 @@ import "../styles/nav.css";
 function Navibar(props) {
   return (
     <div className="navbar">
-      <input className="form-control" type="text" placeholder="Search" /> 
+      <div className="searchBar"><input className="form-control" type="text" placeholder="Search" /></div>
+      <div className="menu">
       <nav>
         <ul>
           <li>
@@ -15,6 +16,7 @@ function Navibar(props) {
           </li>
         </ul>
       </nav>
+      </div>
     </div>
   );
 }
