@@ -26,8 +26,19 @@
   margin-left: 35px;
   color: #eeeeee;
   overflow-y: auto;
+  height: calc(100vh - 445px);
+  font-size: 0.8em;
 }
 
 p:hover {
+  color: #5D3FD3;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul:hover {
   color: #5D3FD3;
 }
