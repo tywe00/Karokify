@@ -14,6 +14,7 @@ async function getAlbum() {
 
 export { getAlbum }; */
 
+
 const url = 'https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc';
 const playlistUrl = 'https://api.spotify.com/v1/me/playlists?limit=50&offset=0'
 
