@@ -18,14 +18,11 @@ function HomeView(props) {
   const userPlayList = useSelector((state) => state.userSpotifyPlayList.playlists);
 
   useEffect(() => {
-   /*  getPlaylists(accessToken).then(data => {
-      dispatch(setUserSpotifyPlaylist(data));
+    const accessToken = localStorage.getItem('access_token');
+    getPlaylists(accessToken).then(data => {
       setPlaylists(data);
-    }); */
-    console.log("this is from homeview")
-    console.log(userPlayList)
-    setPlaylists(userPlayList);
-  }, [userPlayList]);  //dont add playlistsData as dependency, it will trigger many api requests!!
+    })
+  }, []);
 
   return (
     <div className="wrapper">
