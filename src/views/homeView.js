@@ -37,16 +37,11 @@ function HomeView(props) {
 
 
   useEffect(() => {
-    async function fetchData() {
-      const accessToken = localStorage.getItem('access_token');
-      const albumData = await getAlbum(accessToken);
-      const playlistsData = await getPlaylists(accessToken);
-      setAlbum(albumData);
-      setPlaylists(playlistsData);
-    }
-
-    fetchData();
-  }, [album, playlistsData]);
+    const accessToken = localStorage.getItem('access_token');
+    getPlaylists(accessToken).then(data => {
+      setPlaylists(data);
+    })
+  }, []);
 
   useEffect(() => {
     console.log("test");
@@ -66,10 +61,7 @@ function HomeView(props) {
       <nav>
         <ul>
           <li>
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Log Out</a>
+            <a href="#" onClick={logOutUser}>Log Out</a>
           </li>
         </ul>
       </nav>
