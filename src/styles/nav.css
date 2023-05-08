@@ -1,9 +1,7 @@
 nav {
-    
-    
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    display: inline-block;
+    text-align: right;
+    align-items: right;
     padding: 10px;
   }
   
@@ -12,6 +10,7 @@ nav {
     display: flex;
     margin: 0;
     padding: 0;
+    text-align: right;
     
   }
   
@@ -27,5 +26,26 @@ nav {
   nav ul li a:hover{
     color: #5D3FD3;
   }
-  
-  
+
+  .navbar {
+    height: 80px;
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+    justify-content: space-between;
+  }
+
+  .form-control {
+    margin-right: auto;
+    display: inline-block;
+  }
+
+  .searchBar {
+    /*background-color: #5D3FD3;*/
+  }
+
+  .menu {
+    /*background-color: aquamarine;*/
+    justify-content: center;
+    padding-top: 30px;
+  }

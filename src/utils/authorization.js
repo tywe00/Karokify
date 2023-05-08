@@ -34,7 +34,7 @@ function handleLogin() {
     let codeVerifier = generateRandomString(128);
     generateCodeChallenge(codeVerifier).then(codeChallenge => {
         let state = generateRandomString(16);
-        let scope = 'user-read-private user-read-email playlist-read-private';
+        let scope = 'user-read-private user-read-email playlist-read-private streaming user-read-playback-state user-modify-playback-state';
 
         localStorage.removeItem('code_verifier');
         localStorage.setItem('code_verifier', codeVerifier);
