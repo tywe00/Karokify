@@ -15,6 +15,7 @@ async function getAlbum() {
 export { getAlbum }; */
 
 
+
 const url = 'https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc';
 const playlistUrl = 'https://api.spotify.com/v1/me/playlists?limit=50&offset=0'
 
@@ -38,21 +39,8 @@ function getPlaylists(accessToken) {
       'Authorization': `Bearer ${accessToken}`
     }
   })
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    /* console.log("this is the list of playlists from spotify");
-    console.log(data); */
-    const playlists = data.items.map(item => {
-      return {
-        name: item.name,
-        id: item.tracks.href.split('playlists/')[1]
-      };
-    });
-    return playlists;
-    }
-  )
+  .then(response => response.json())
+  .then(data => data)
 }
 
 /* async function getPlaylists() {

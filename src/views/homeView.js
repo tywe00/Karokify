@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
 import TrackRow from "../components/trackRow.js";
 import Sidebar from "../components/sidebar.js";
+import { getSearchResults } from "../utils/api.js";
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 import "../styles/homeView.css";
 import "../styles/nav.css";
-import { getPlaylists, getSearchResults } from "../utils/api.js";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserSpotifyPlaylist } from "../slices/tokenSlice.js";
-import { fetchPlayLists } from "../slices/userSpotifyPlist.js";
 
 function HomeView(props) {
   
-  const [playlistsData, setPlaylists] = useState(null);
+  const [playlistsData, setPlaylists] = useState(props.userPlayList.playlists);
   const [searchResults, setSearchResults] = useState(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const userPlayList = useSelector((state) => state.userSpotifyPlayList.playlists);
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem('access_token');
-    getPlaylists(accessToken).then(data => {
-      setPlaylists(data);
-    })
-  }, []);
+ /*  useEffect(() => {
+    console.log("this is from homeview")
+    console.log(props.userPlayList)
+    
+  }, [props.userPlayList.loading]);
+ */
 
   return (
     <div className="wrapper">
       <div className="sidebar">
-        {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
+        {<Sidebar playlists={props.userPlayList.playlists} />}
       </div>
       <div className="mainContent">
         <input onChange={handleSearch} className="form-control" type="text" placeholder="Search" />
@@ -72,15 +68,20 @@ function HomeView(props) {
 
       e.preventDefault();
       const searchTerm = e.target.value;
-      const accessToken = localStorage.getItem('access_token');
-      const searchResults = await getSearchResults(accessToken, searchTerm);
+      //const accessToken = localStorage.getItem('access_token');
+      const searchResults = await getSearchResults(props.accessToken, searchTerm);
       console.log()
       setSearchResults(searchResults);
 
     }
-    
-
   }
 }
 
-export default HomeView;
+function mapStateToProps(state) {
+  return{
+    userPlayList : state.userSpotifyPlayList,
+    accessToken : state.tokenSlice
+  };
+}
+
+export default connect(mapStateToProps)(HomeView);

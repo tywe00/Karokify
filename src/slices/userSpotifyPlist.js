@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getPlaylists } from "../utils/api";
 
 const initialState = {
-    loading: false,
+    loading: true,
     playlists: [],
     error:'',
 }
@@ -10,6 +10,13 @@ const initialState = {
 export const fetchPlayLists = createAsyncThunk('user/playList', (accessToken) => {
     return getPlaylists(accessToken)
 })
+
+/* const playlists = data.items.map(item => {
+    return {
+      name: item.name,
+      id: item.tracks.href.split('playlists/')[1]
+    };
+  }); */
 
 const userSpotifyPlist = createSlice({
     name: 'userSpotifyPlist',
@@ -20,7 +27,14 @@ const userSpotifyPlist = createSlice({
         })
         builder.addCase(fetchPlayLists.fulfilled, (state,action) => {
             state.loading = false
-            state.playlists = action.payload
+            state.playlists = action.payload.items.map(item => {
+                return {
+                  name: item.name,
+                  id: item.tracks.href.split('playlists/')[1]
+                };
+              });
+            /* console.log("this is coming from store - 1")
+            console.log(state.playlists) */
             state.error = ''
         })
         builder.addCase(fetchPlayLists.rejected, (state,action) => {
