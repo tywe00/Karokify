@@ -6,7 +6,7 @@ import "../styles/nav.css";
 import { getPlaylists, getSearchResults } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserSpotifyPlaylist } from "../slices/userinfoSlice.js";
+import { setUserSpotifyPlaylist } from "../slices/tokenSlice.js";
 import { fetchPlayLists } from "../slices/userSpotifyPlist.js";
 
 function HomeView(props) {

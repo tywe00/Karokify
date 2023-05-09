@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import { handleCodeExchange } from "../utils/authorization";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { setAccessToken, setRefreshToken, setUserSpotifyPlaylist } from "../slices/userinfoSlice";
+import { setAccessToken, setRefreshToken, setUserSpotifyPlaylist } from "../slices/tokenSlice";
 import { fetchPlayLists } from "../slices/userSpotifyPlist";
 
 function LoadingPage() {

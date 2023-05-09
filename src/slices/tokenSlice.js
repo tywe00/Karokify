@@ -1,22 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    playList: [],
+    accessToken : null,
+    refreshToken : null,
 }
 
-const playlistSlice = createSlice({
-    name: 'playlist',
+const tokenSlice = createSlice({
+    name: 'userinfo',
     initialState,
-    reducers:{
-        addToPlaylist: (state, action) => {
-            state.push(action.payload);
+    reducers: {
+        setAccessToken: (state, action) => {
+            state.accessToken = action.payload;
         },
-        removeFromPlaylist: (state, action) => {
-            return state.filter((playlist) => playlist.id !== action.payload);
-        }
+        setRefreshToken: (state, action) => {
+            state.refreshToken = action.payload;
+        },
     }
 });
 
-export const {addToPlaylist, removeFromPlaylist} = playlistSlice.actions;
+export const { setAccessToken, setRefreshToken, setUserSpotifyPlaylist } = tokenSlice.actions;
 
-export const playlistReducer = playlistSlice.reducer;
+export const tokenReducer = tokenSlice.reducer;
