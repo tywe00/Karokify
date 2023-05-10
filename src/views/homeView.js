@@ -17,7 +17,7 @@ function HomeView(props) {
   const [track, setTrack] = useState(null);
   const [player, setPlayer] = useState(<Player />);
   const [useKaraoke, setUseKaraoke] = useState(false);
-  const [playlistsData, setPlaylists] = useState(null);
+  const [playlistsData, setPlaylists] = useState(props.userPlayList.playlists);
   const [searchResults, setSearchResults] = useState(null);
   const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ function HomeView(props) {
     <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
-        {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
+        {<Sidebar playlists={props.userPlayList.playlists} />}
         </div>
         <div className="mainContent">
         <div className="navbar">
