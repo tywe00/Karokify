@@ -1,14 +1,13 @@
-import React from 'react';
 import HomeView from '../views/homeView.js';
+import { connect } from "react-redux";
 
-function HomePresenter(props) {
-  
-  const data = {
-    title: 'Karaokify Home Page',
-    content: 'Welcome to the home page!'
+function mapStateToProps(state) {
+  return{
+    userPlayList : state.userSpotifyPlayList,
+    accessToken : state.tokenSlice
   };
-
-  return <HomeView data={data} />;
 }
+
+const HomePresenter = connect(mapStateToProps)(HomeView);
 
 export default HomePresenter;

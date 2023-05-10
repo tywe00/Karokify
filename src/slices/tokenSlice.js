@@ -18,6 +18,6 @@ const tokenSlice = createSlice({
     }
 });
 
-export const { setAccessToken, setRefreshToken, setUserSpotifyPlaylist } = tokenSlice.actions;
+export const { setAccessToken, setRefreshToken } = tokenSlice.actions;
 
 export const tokenReducer = tokenSlice.reducer;
