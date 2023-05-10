@@ -53,19 +53,8 @@ function getPlaylists(accessToken) {
       'Authorization': `Bearer ${accessToken}`
     }
   })
-  .then(response => {
-    return response.json()
-  })
-  .then(data => {
-    const playlists = data.items.map(item => {
-      return {
-        name: item.name,
-        id: item.tracks.href.split('playlists/')[1]
-      };
-    });
-    return playlists;
-    }
-  )
+  .then(response => response.json())
+  .then(data => data)
 }
 
 /* async function getPlaylists() {

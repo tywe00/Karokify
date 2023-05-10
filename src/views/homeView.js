@@ -9,6 +9,7 @@ import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
 import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 
 function HomeView(props) {
   const [playState, setPlayState] = useState(false);
@@ -121,15 +122,20 @@ function HomeView(props) {
 
       e.preventDefault();
       const searchTerm = e.target.value;
-      const accessToken = localStorage.getItem('access_token');
-      const searchResults = await getSearchResults(accessToken, searchTerm);
+      //const accessToken = localStorage.getItem('access_token');
+      const searchResults = await getSearchResults(props.accessToken, searchTerm);
       console.log()
       setSearchResults(searchResults);
 
     }
-    
-
   }
 }
 
-export default HomeView;
+function mapStateToProps(state) {
+  return{
+    userPlayList : state.userSpotifyPlayList,
+    accessToken : state.tokenSlice
+  };
+}
+
+export default connect(mapStateToProps)(HomeView);

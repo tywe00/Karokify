@@ -29,7 +29,7 @@ async function generateCodeChallenge(codeVerifier) {
     return base64encode(hashed);
 }
 
-function handleLogin() {
+ function handleLogin() {
 
     let codeVerifier = generateRandomString(128);
     generateCodeChallenge(codeVerifier).then(codeChallenge => {
@@ -52,7 +52,7 @@ function handleLogin() {
         window.location = 'https://accounts.spotify.com/authorize?' + args;
     });
    
-}
+} 
 
 function handleCodeExchange(code) {
     let codeVerifier = localStorage.getItem('code_verifier');
