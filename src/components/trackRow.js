@@ -2,7 +2,10 @@ import React from "react";
 import "../styles/trackRow.css";
 
 function TrackRow(props) {
-  //console.log(props);
+  //function handleRowClick(event) {
+  //  console.log(props.data.track);
+  //}
+  console.log(props);
   return (
     <div className="trackRow">
         <tr>

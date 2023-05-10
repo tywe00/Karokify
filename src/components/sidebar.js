@@ -1,6 +1,7 @@
 import React from "react";
 import PlayerControls from "./playerControls";
 import "../styles/sidebar.css";
+import Player from "./player";
 
 function Sidebar(props) {
   return (
@@ -15,11 +16,6 @@ function Sidebar(props) {
         <p>Loading...</p>
       )}
       </div>
-      <img
-        className="album-art"
-        src="https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2"
-      />
-      <PlayerControls />
     </div>
   );
 
@@ -29,3 +25,9 @@ function Sidebar(props) {
 }
 
 export default Sidebar;
+
+/*
+<img
+        className="album-art"
+        src="https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2"
+      />*/
