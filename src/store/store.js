@@ -8,11 +8,12 @@ import { combineReducers } from "@reduxjs/toolkit";
 
 const persistConfig = {
     key: "root",
+    version: 1, 
     storage
 };
 
 const reducer = combineReducers({
-    tokeninfo : tokenReducer,
+    tokenInfo : tokenReducer,
     playedHistory : playHistoryReducer,
     userSpotifyPlayList : userSpotifyPlistReducer,
 });

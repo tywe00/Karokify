@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 function mapStateToProps(state) {
   return{
     userPlayList : state.userSpotifyPlayList,
-    accessToken : state.tokenSlice
+    accessToken : state.tokenInfo
   };
 }
 

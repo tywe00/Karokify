@@ -10,6 +10,9 @@ import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
 import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 
+//TODO: Add description of what a user can expect of karokify
+//TODO: Add a header on top of sidebar to describe purpose
+//TODO: Indicate the function of lyrics button
 function HomeView(props) {
   const [playState, setPlayState] = useState(false);
   const [album, setAlbum] = useState(null);
@@ -17,7 +20,7 @@ function HomeView(props) {
   const [player, setPlayer] = useState(<Player />);
   const [useKaraoke, setUseKaraoke] = useState(false);
   const [playlistsData, setPlaylists] = useState(props.userPlayList.playlists);
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);   //maybe create a presenter?
   const navigate = useNavigate();
 
   function setCurrentTrack(track) {
