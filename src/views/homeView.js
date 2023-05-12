@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
-  const [track, setTrack] = useState(null);   //state to hold currently playing truck
+  const [track, setTrack] = useState(null);   //state to hold currently playing track
   const [player, setPlayer] = useState(<Player />); //state to hold the player component
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
   const [searchResults, setSearchResults] = useState(null);   //maybe create a presenter?
