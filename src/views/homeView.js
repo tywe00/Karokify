@@ -14,13 +14,11 @@ import { useNavigate } from "react-router-dom";
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
-  const [playState, setPlayState] = useState(false);
-  const [album, setAlbum] = useState(null);
-  const [track, setTrack] = useState(null);
-  const [player, setPlayer] = useState(<Player />);
-  const [useKaraoke, setUseKaraoke] = useState(false);
-  const [playlistsData, setPlaylists] = useState(props.userPlayList.playlists);
+  const [track, setTrack] = useState(null);   //state to hold currently playing truck
+  const [player, setPlayer] = useState(<Player />); //state to hold the player component
+  const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
   const [searchResults, setSearchResults] = useState(null);   //maybe create a presenter?
+  
   const navigate = useNavigate();
 
   function setCurrentTrack(track) {
@@ -30,9 +28,6 @@ function HomeView(props) {
     console.log(track);
     setPlayer(
       <Player
-        persistDeviceSelection={true}
-        syncExternalDevice={true}
-        play={playState}
         trackURI={"spotify:track:" + track.id}
       />
     );
@@ -41,17 +36,10 @@ function HomeView(props) {
 
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
-    getPlaylists(accessToken).then(data => {
-      setPlaylists(data);
-    })
     console.log("this is from view")
     console.log(props.accessToken)
   }, []);
 
-  useEffect(() => {
-    console.log("test");
-    setPlayState(true);
-  });
 
   return (
     <div className="homeView">
@@ -71,25 +59,18 @@ function HomeView(props) {
         </ul>
       </nav>
       </div>
-    </div>
+        </div>
           
-          { useKaraoke? (
-            <button className="lyricsToggle" 
-            onClick={()=>setUseKaraoke(!useKaraoke)}>
-            <BsChatSquareQuoteFill />
+          <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
+              {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
           </button>
-          ) : (
-            <button className="lyricsToggle" 
-            onClick={()=>setUseKaraoke(!useKaraoke)}>
-            <BsChatSquareQuote />
-          </button>
-          )}
+
           { useKaraoke? ( 
             <Karaoke props={track.id} />
           ) : searchResults ? (
             <div className="searchResults">
               <tbody>
-                <tr>{searchResults.map(trackRenderCB)}</tr>
+                <tr>{searchResults.map(searchResultsRenderCB)}</tr>
               </tbody>
             </div>
           ) : (
@@ -101,15 +82,11 @@ function HomeView(props) {
     </div>
   );
 
-  function trackRenderCB(track) {
-    function handleRowClick() {
-      console.log(track.id);
-      setCurrentTrack(track);
-      //setPlayer(<Player play={true} trackURI={"spotify:track:" + trackURI} />);
-    }
-
+  function searchResultsRenderCB(track) {
     return (
-      <tr key={track.id} onClick={handleRowClick}>
+      <tr key={track.id} onClick={() => {
+        setCurrentTrack(track);
+        }}>
         <TrackRow data={{ track }} />
       </tr>
     );
@@ -127,9 +104,9 @@ function HomeView(props) {
       e.preventDefault();
       const searchTerm = e.target.value;
       const accessToken = localStorage.getItem('access_token');
-      const searchResults = await getSearchResults(props.accessToken, searchTerm);
+      const searchResults = await getSearchResults(accessToken, searchTerm);
       console.log("this is token");
-      console.log(props.accessToken)
+      console.log(props.accessToken.accessToken)
       setSearchResults(searchResults);
 
     }

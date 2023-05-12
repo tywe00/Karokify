@@ -9,14 +9,16 @@ const recentTracksSlice = createSlice({
     initialState,
     reducers: {
         addTrack: (state, action) => {
-            state.unshift(action.payload);  //add track at beginning of list
-            if(state.length > 10) {     //remove the last one in list
-                state.pop();
+            const length = state.recentTracksList.unshift(action.payload);  //add track at beginning of list
+            console.log("this is from store")
+            console.log(state.recentTracksList)
+            if(length > 10) {     //remove the last one in list
+                state.recentTracksList.pop();
             }
         }
     }
 });
 
-export const addTrack = recentTracksSlice.actions;
+export const {addTrack} = recentTracksSlice.actions;
 
 export const playHistoryReducer = recentTracksSlice.reducer;
