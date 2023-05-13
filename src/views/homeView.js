@@ -16,76 +16,60 @@ import { doSearch } from "../slices/searchResultSlice.js";
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
-  const [track, setTrack] = useState(null);   //state to hold currently playing track
-  const [player, setPlayer] = useState(<Player />); //state to hold the player component
+ 
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
-  const [searchResults, setSearchResults] = useState(null);   //maybe create a presenter?
-  //const [searchTerm, setSearchTerm] = useState("");
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  function setCurrentTrack(track) {
-    console.log("setting track");
-    setUseKaraoke(true);
-    setTrack(track);
-    console.log(track);
-    setPlayer(
-      <Player
-        trackURI={"spotify:track:" + track.id}
-      />
-    );
-  }
-
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('access_token');
-    console.log("this is from view")
-    console.log(props)
+    console.log("homeview is mounted")
   }, []);
+
+  let content = null;
+
+  if (useKaraoke) {
+    content = <Karaoke props={props.currentTrack.id} />;
+  } else if (props.searchResults) {
+    content = (
+      <div className="searchResults">
+        <tbody>
+          <tr>{props.searchResults.map(searchResultsRenderCB)}</tr>
+        </tbody>
+      </div>
+    );
+  } else {
+    content = <p>Loading...</p>;
+  }
 
 
   return (
     <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
-        {<Sidebar playlists={props.userPlayList.playlists} />}
+          <Sidebar playlists={props.userPlayList.playlists} />
         </div>
         <div className="mainContent">
-        <div className="navbar">
-      <div className="searchBar">
-        <input className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
-        <button onClick={props.deleteSearchResults}>Clear</button>
-      </div>
-      <div className="menu">
-      <nav>
-        <ul>
-          <li>
-            <a href="#" onClick={logOutUser}>Log Out</a>
-          </li>
-        </ul>
-      </nav>
-      </div>
-        </div>
-          
-          <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
-              {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
-          </button>
-
-          { useKaraoke? ( 
-            <Karaoke props={track.id} />
-          ) : props.searchResults ? (
-            <div className="searchResults">
-              <tbody>
-                <tr>{props.searchResults.map(searchResultsRenderCB)}</tr>
-              </tbody>
+          <div className="navbar">
+            <div className="searchBar">
+              <input id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+              <button onClick={clearSearchInput}>Clear</button>
             </div>
-          ) : (
-            <p>Loading...</p>
-          )}
+            <div className="menu">
+              <nav>
+                <ul>
+                  <li>
+                    <a href="#" onClick={logOutUser}>Log Out</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
+            {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
+          </button>
+          {content}
         </div>
-        </div>
-      {player}
+      </div>
+      {props.currentTrack ? <Player trackURI={"spotify:track:" + props.currentTrack.id} /> : <Player />}
     </div>
   );
 
@@ -108,16 +92,23 @@ function HomeView(props) {
   function handleSearch(e) {
     if (e.target.value.length > 2) {
       e.preventDefault();
-      /* console.log("this is event")
-      console.log(e.target.value); */
       const accessToken = localStorage.getItem('access_token');
-      //props.deleteSearchResults();
       props.setSearchTerm(e.target.value)
       const searchTerm = props.searchTerm
       props.search({accessToken, searchTerm});
-      //const searchResults = await getSearchResults(accessToken, searchTerm);
-      //setSearchResults(searchResults);
+   
     }
+  }
+
+  function clearSearchInput() {
+    document.getElementById('searchInput').value = '';
+    props.deleteSearchResults();
+  }
+
+  function setCurrentTrack(track) {
+    setUseKaraoke(true);
+    props.setCurrentTrack(track);
+    props.addToRecent(track.id);
   }
 }
 

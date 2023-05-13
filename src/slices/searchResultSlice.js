@@ -14,8 +14,6 @@ const initialState = {
 }
 
 export const doSearch = createAsyncThunk('user/searchResults', ({accessToken, searchTerm}) => {
-    console.log("this is from slice")
-    console.log(searchTerm)
     return getSearchResults(accessToken, searchTerm)
 })
 

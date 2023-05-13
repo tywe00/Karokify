@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    trackID : '',
+    track : null,
 }
 
 const currentPlayingSlice = createSlice({
@@ -9,11 +9,11 @@ const currentPlayingSlice = createSlice({
     initialState,
     reducers: {
         setCurrentPlaying: (state, action) => {
-            state.trackID = action.payload;
+            state.track = action.payload;
         },
     }
 });
 
-export const {setCurrentPlaying} = currentPlayingSlice.actions;
+export const { setCurrentPlaying } = currentPlayingSlice.actions;
 
 export const currentPlayingReducer = currentPlayingSlice.reducer;

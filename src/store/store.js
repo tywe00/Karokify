@@ -19,7 +19,7 @@ const reducer = combineReducers({
     playedHistory : playHistoryReducer,
     userSpotifyPlayList : userSpotifyPlistReducer,
     searchResults : searchResultsReducer,
-    currentPlaying : currentPlayingReducer,
+    currentTrack : currentPlayingReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
