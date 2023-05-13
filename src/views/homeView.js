@@ -9,6 +9,8 @@ import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
 import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { doSearch } from "../slices/searchResultSlice.js";
 
 //TODO: Add description of what a user can expect of karokify
 //TODO: Add a header on top of sidebar to describe purpose
@@ -18,8 +20,10 @@ function HomeView(props) {
   const [player, setPlayer] = useState(<Player />); //state to hold the player component
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
   const [searchResults, setSearchResults] = useState(null);   //maybe create a presenter?
-  
+  //const [searchTerm, setSearchTerm] = useState("");
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function setCurrentTrack(track) {
     console.log("setting track");
@@ -37,7 +41,7 @@ function HomeView(props) {
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
     console.log("this is from view")
-    console.log(props.accessToken)
+    console.log(props)
   }, []);
 
 
@@ -49,7 +53,10 @@ function HomeView(props) {
         </div>
         <div className="mainContent">
         <div className="navbar">
-      <div className="searchBar"><input className="form-control" onChange={handleSearch} type="text" placeholder="Search" /></div>
+      <div className="searchBar">
+        <input className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+        <button onClick={props.deleteSearchResults}>Clear</button>
+      </div>
       <div className="menu">
       <nav>
         <ul>
@@ -67,10 +74,10 @@ function HomeView(props) {
 
           { useKaraoke? ( 
             <Karaoke props={track.id} />
-          ) : searchResults ? (
+          ) : props.searchResults ? (
             <div className="searchResults">
               <tbody>
-                <tr>{searchResults.map(searchResultsRenderCB)}</tr>
+                <tr>{props.searchResults.map(searchResultsRenderCB)}</tr>
               </tbody>
             </div>
           ) : (
@@ -98,17 +105,18 @@ function HomeView(props) {
     
   }
 
-  async function handleSearch(e) {
+  function handleSearch(e) {
     if (e.target.value.length > 2) {
-
       e.preventDefault();
-      const searchTerm = e.target.value;
+      /* console.log("this is event")
+      console.log(e.target.value); */
       const accessToken = localStorage.getItem('access_token');
-      const searchResults = await getSearchResults(accessToken, searchTerm);
-      console.log("this is token");
-      console.log(props.accessToken.accessToken)
-      setSearchResults(searchResults);
-
+      //props.deleteSearchResults();
+      props.setSearchTerm(e.target.value)
+      const searchTerm = props.searchTerm
+      props.search({accessToken, searchTerm});
+      //const searchResults = await getSearchResults(accessToken, searchTerm);
+      //setSearchResults(searchResults);
     }
   }
 }

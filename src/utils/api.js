@@ -91,7 +91,8 @@ async function getPlaylistTracks(playlistId, accessToken) {
   return data.items;
 }
 
-async function getSearchResults(accessToken, searchTerm) {
+/* async function getSearchResults(accessToken, searchTerm) {
+  console.log(searchTerm)
   const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -105,9 +106,24 @@ async function getSearchResults(accessToken, searchTerm) {
 
   const data = await response.json();
 
-  console.log(data.tracks.items)
+  //console.log(data.tracks.items)
 
   return data.tracks.items;
+} */
+
+function getSearchResults(accessToken, searchTerm) {
+  const url = `https://api.spotify.com/v1/search?q=${searchTerm}&type=track`;
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    return data.tracks.items;
+  })
 }
 
 
