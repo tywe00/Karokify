@@ -2,6 +2,7 @@ import React from "react";
 import PlayerControls from "./playerControls";
 import "../styles/sidebar.css";
 import Player from "./player";
+import playlistClick from "../views/homeView.js"
 
 function Sidebar(props) {
   return (
@@ -20,14 +21,8 @@ function Sidebar(props) {
   );
 
   function playlistsRenderCB(playlist) {
-    return <ul key={playlist.id}>{playlist.name}</ul>;
+    return <ul key={playlist.id} onClick={() => props.playlistClick(playlist.id)}>{playlist.name}</ul>;
   }
 }
 
 export default Sidebar;
-
-/*
-<img
-        className="album-art"
-        src="https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2"
-      />*/

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TrackRow from "../components/trackRow.js";
+import PlaylistTrackRow from "../components/playlistTrackRow.js";
 import Sidebar from "../components/sidebar.js";
 import Karaoke from "./karaokeView.js";
 import "../styles/homeView.css";
@@ -7,7 +8,7 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
+import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 
 function HomeView(props) {
@@ -18,6 +19,7 @@ function HomeView(props) {
   const [useKaraoke, setUseKaraoke] = useState(false);
   const [playlistsData, setPlaylists] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
+  const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
 
   function setCurrentTrack(track) {
@@ -52,7 +54,7 @@ function HomeView(props) {
     <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
-        {playlistsData && <Sidebar playlists={playlistsData} setAlbumData={props.setAlbumData} />}
+        {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
         <div className="mainContent">
         <div className="navbar">
@@ -87,9 +89,13 @@ function HomeView(props) {
                 <tr>{searchResults.map(trackRenderCB)}</tr>
               </tbody>
             </div>
-          ) : (
-            <p>Loading...</p>
-          )}
+          ) : playlistTracks ?  (
+            <div className="searchResults">
+              <tbody>
+                <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
+              </tbody>
+            </div>
+          ): <p>Loading...</p>}
         </div>
         </div>
       {player}
@@ -110,6 +116,19 @@ function HomeView(props) {
     );
   }
 
+  function playlistTrackRenderCB(track) {
+    function handleRowClick() {
+      setCurrentTrack(track.track);
+      //setPlayer(<Player play={true} trackURI={"spotify:track:" + trackURI} />);
+    }
+
+    return (
+      <tr key={track.id} onClick={handleRowClick}>
+        <PlaylistTrackRow data={{ track }} />
+      </tr>
+    );
+  }
+
   function logOutUser() {
     localStorage.clear();
     navigate('/');
@@ -123,13 +142,19 @@ function HomeView(props) {
       const searchTerm = e.target.value;
       const accessToken = localStorage.getItem('access_token');
       const searchResults = await getSearchResults(accessToken, searchTerm);
-      console.log()
+      setUseKaraoke(false);
       setSearchResults(searchResults);
 
     }
-    
-
   }
+
+  async function playlistClick(playlistId) {
+    const tracks = await getPlaylistTracks(playlistId);
+    const parsedData = Object.values(tracks);
+    setUseKaraoke(false);
+    setSearchResults(false);
+    setPlaylistTracks(parsedData);
+  };
 }
 
 export default HomeView;

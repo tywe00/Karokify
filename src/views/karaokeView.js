@@ -98,7 +98,7 @@ function Karaoke(props) {
       getCurrentPlaybackPosition().then((data) => {
         setPlayback(data.progress_ms);
       });
-    }, 100);
+    }, 5000);
 
     return () => {
       clearInterval(interval);

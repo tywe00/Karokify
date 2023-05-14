@@ -13,7 +13,6 @@ async function getAlbum() {
 }
 
 export { getAlbum }; */
-
 const accessToken = localStorage.getItem("access_token");
 const playlistUrl = 'https://api.spotify.com/v1/me/playlists?limit=50&offset=0'
 
@@ -33,11 +32,12 @@ function getAlbum() {
 
 async function getCurrentPlaybackPosition() {
   const url = "https://api.spotify.com/v1/me/player";
+  const localAccessToken = localStorage.getItem("access_token");
 
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${localAccessToken}`,
     },
   });
   const data = await response.json();
@@ -60,7 +60,7 @@ function getPlaylists(accessToken) {
     const playlists = data.items.map(item => {
       return {
         name: item.name,
-        id: item.tracks.href.split('playlists/')[1]
+        id: item.id
       };
     });
     return playlists;
@@ -85,8 +85,8 @@ function getPlaylists(accessToken) {
   return playlists;
 } */
 
-async function getPlaylistTracks(playlistId, accessToken) {
-  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+async function getPlaylistTracks(playlistId) {
+  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
@@ -94,12 +94,19 @@ async function getPlaylistTracks(playlistId, accessToken) {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch playlist tracks');
+    const errorResponse = await response.json();
+    throw new Error(`Failed to fetch playlist tracks: ${errorResponse.error.message}`);
   }
 
   const data = await response.json();
-
-  return data.items;
+  if (data.tracks.items != undefined && data.tracks.items != null) {
+    const parsedData = Object.values(data.tracks.items)
+    parsedData.map(e => e.track);
+    return parsedData;
+  } else {
+    console.log("Playlist tracks undefined")
+  }
+  return undefined;
 }
 
 async function getSearchResults(accessToken, searchTerm) {
@@ -115,9 +122,6 @@ async function getSearchResults(accessToken, searchTerm) {
   }
 
   const data = await response.json();
-
-  console.log(data.tracks.items)
-
   return data.tracks.items;
 }
 
