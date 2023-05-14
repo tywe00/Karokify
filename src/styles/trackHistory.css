@@ -2,7 +2,8 @@
     grid-area: sidebar;
     grid-column: 1;
     grid-row: 1;
-    width: 350px;
+    width: 210px;
+    min-width: 210px;
     overflow-y: auto;
     height: calc(100vh - 100px);
     /*height: calc(100% - 20px);*/
@@ -40,7 +41,7 @@
     margin-left: 10px;
     font-size: small;
     text-align: center;
-    border-radius: 20px;
+    border-radius: 10px;
 
   }
 
