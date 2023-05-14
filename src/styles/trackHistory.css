@@ -28,31 +28,43 @@
 
   }
 
+  .albumArt1 {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    left:
+  }
 
 
-  .historybox{
-    background-color: #212121 ;
-    width : 180px;
-    min-height: 50px;
+
+  .historybox {
+    background-color: #212121;
     display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 15px;
     margin-left: 10px;
+    border-radius: 10px;
+    align-items: center;
     font-size: small;
     text-align: center;
-    border-radius: 10px;
-
+    width: 180px;
+    min-height: 50px;
   }
-
-  .historybox:hover{
-    
+  
+  .historybox:hover {
     cursor: pointer;
     background-color: #5D3FD3;
-
-
   }
-
-  .historybox p1{
+  
+  .albumArt {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    border-radius: 10px;
+  }
+  
+  .historybox p {
+    margin: 0;
+    text-align: left;
     pointer-events: none;
   }
+  

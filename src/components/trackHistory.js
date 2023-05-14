@@ -21,7 +21,17 @@ function TrackHistory(props) {
         {props.data.playHistoryList.map(item => {
           return (
           <div onClick={() => handleCLick(item)} key={item.name} className="historybox">
-            <p1 style={{ display: "block" }}>{item.name}</p1>
+            <table>
+        <tbody>
+          <tr>
+            <td><img className="albumArt" src={item.album?.images?.[0]?.url ?? "./src/assets/noAlbum.png"} alt="Album Art"></img></td>
+            <td>
+              <p style={{ display: "block" }}>{item.name}</p>
+              
+            </td>
+          </tr>
+        </tbody>
+      </table>
           </div>
       );})}
     </div>
