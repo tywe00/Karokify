@@ -118,6 +118,12 @@ function HomeView(props) {
     setUseKaraoke(true);
     props.setCurrentTrack(track);
     props.addToRecent(track.id);
+    //ids = playHistory
+    for (let i = 0; i < playHistory.playHistoryList.length; i++) {
+      if (playHistory.playHistoryList[i].id === track.id) {
+        playHistory.playHistoryList.splice(i, 1);
+      }
+    }
     playHistory.playHistoryList.unshift(track);
     
   }
