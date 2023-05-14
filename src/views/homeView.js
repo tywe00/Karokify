@@ -71,7 +71,6 @@ function HomeView(props) {
   return (
     <div className="homeView">
       <div className="wrapper">
-    <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
         <div className="sidebar">
         {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
@@ -90,6 +89,7 @@ function HomeView(props) {
                   </li>
                 </ul>
               </nav>
+
               
             </div>
 
@@ -100,7 +100,9 @@ function HomeView(props) {
           </button>
           {content}
         </div>
+      <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
       </div>
+
       {props.currentTrack ? <Player trackURI={"spotify:track:" + props.currentTrack.id} /> : <Player />}
     </div>
   );
