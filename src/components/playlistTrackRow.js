@@ -14,7 +14,7 @@ function PlaylistTrackRow(props) {
               <p1 style={{ display: "block" }}>{props.data.track.track.artists[0].name}</p1>
                 </td>
         </tr>
-        <hr className="divider"></hr>
+     
     </div>
   );
 }

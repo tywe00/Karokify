@@ -8,13 +8,7 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import {
-  getAlbum,
-  getPlaylists,
-  getSearchResults,
-  getPlaylistTracks,
-  getUserInfo,
-} from "../utils/api.js";
+import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
@@ -120,16 +114,13 @@ function HomeView(props) {
               </nav>
             </div>
           </div>
-
-          <button
-            className="lyricsToggle"
-            onClick={() => setUseKaraoke(!useKaraoke)}
-          >
-            {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
-          </button>
+          <div className="toggle">{useKaraoke ? 
+          <div><button className="activeKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div> : 
+          <div><button className="inactiveKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div>}
+          </div>
           {content}
         </div>
-        <TrackHistory data={playHistory} setCurrentTrack={setCurrentTrack} />
+        <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
       </div>
 
       {props.currentTrack ? (

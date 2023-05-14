@@ -17,22 +17,14 @@ function TrackHistory(props) {
     
   return (
     <div className="playHistory" >
-        <h1>Recent played Tracks</h1>
+        <h1>Recently played tracks</h1>
         {props.data.playHistoryList.map(item => {
           return (
           <div onClick={() => handleCLick(item)} key={item.name} className="historybox">
-          
-          <p1 style={{ display: "block" }}>{item.name}</p1>
-          
-          
+            <p1 style={{ display: "block" }}>{item.name}</p1>
           </div>
-      );
-        })
-        
-        
-        }
-
-      </div>
+      );})}
+    </div>
   )
 }
 

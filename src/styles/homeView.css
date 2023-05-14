@@ -60,6 +60,7 @@
   .searchResults {
     width: 100%;
     overflow-y: scroll;
+    height: calc(100vh - 220px)
   }
 
   .lyricsToggle {
@@ -68,6 +69,39 @@
     font-size: 3em;
     margin:0 auto;
     display: block;
+    cursor: pointer;
+    border: #555555;
   }
 
+  .toggle {
+    height: 30px;
+    margin-top: 0px;
+  }
+
+  .activeKaraoke {
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #5D3FD3;
+    background-color: #5D3FD3;
+    color: #eeeeee;
+    margin-left: 10px;
+    cursor: pointer;
+    display: block;
+    margin:0 auto;
+  }
+
+  .inactiveKaraoke {
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    background-color: #333;
+    color: #eeeeee;
+    margin-left: 10px;
+    margin-top: 50px;
+    cursor: pointer;
+    display: block;
+    margin:0 auto;
+  }
   
