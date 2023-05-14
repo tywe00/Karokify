@@ -8,8 +8,6 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import KaraokeSwitch from "../components/karaokeSwitch.js";
-
 import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -17,12 +15,13 @@ import { doSearch } from "../slices/searchResultSlice.js";
 import TrackHistory from "../components/trackHistory.js";
 import { playHistory } from "../data/historyData.js";
 
-
 //TODO: Add description of what a user can expect of karokify
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
-  const [playState, setPlayState] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // variable to keep track of playing state throughout the app
+  const [currentTime, setCurrentTime] = useState(0);
+  const [playState, setPlaystate] = useState(false);
   const [album, setAlbum] = useState(null);
   const [track, setTrack] = useState(null);
   const [player, setPlayer] = useState(<Player />);
@@ -31,23 +30,33 @@ function HomeView(props) {
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
-  let user_ID = getUserInfo(localStorage.getItem("access_token")).then((data) => { user_ID = data.id});
-  
+  let user_ID = getUserInfo(localStorage.getItem("access_token")).then(
+    (data) => {
+      user_ID = data.id;
+    }
+  );
+
   useEffect(() => {
-    console.log("homeview is mounted")
+    console.log("homeview is mounted");
   }, []);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('access_token');
-    getPlaylists(accessToken).then(data => {
+    const accessToken = localStorage.getItem("access_token");
+    getPlaylists(accessToken).then((data) => {
       setPlaylists(data);
-    })
+    });
   }, []);
 
   let content = null;
 
   if (useKaraoke) {
-    content = <Karaoke props={props.currentTrack.id} />;
+    content = (
+      <Karaoke
+        currentTime={currentTime}
+        isPlaying={isPlaying}
+        props={props.currentTrack.id}
+      />
+    );
   } else if (playlistTracks) {
     content = (
       <div className="searchResults">
@@ -68,31 +77,42 @@ function HomeView(props) {
     content = <p>Loading...</p>;
   }
 
-
   return (
     <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
-        {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
+          {playlistsData && (
+            <Sidebar
+              playlists={playlistsData}
+              playlistClick={playlistClick}
+              setAlbumData={props.setAlbumData}
+            />
+          )}
         </div>
         <div className="mainContent">
-          
           <div className="navbar">
             <div className="searchBar">
-              <input  id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+              <input
+                id="searchInput"
+                className="form-control"
+                onChange={handleSearch}
+                type="text"
+                placeholder="Search"
+              />
+
               <button onClick={clearSearchInput}>Clear</button>
             </div>
             <div className="menu">
               <nav>
                 <ul>
                   <li>
-                    <a href="#" onClick={logOutUser}>Log Out</a>
+                    <a href="#" onClick={logOutUser}>
+                      Log Out
+                    </a>
                   </li>
                 </ul>
               </nav>
-              
             </div>
-
           </div>
           <div className="toggle">{useKaraoke ? 
           <div><button className="activeKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div> : 
@@ -102,15 +122,28 @@ function HomeView(props) {
         </div>
         <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
       </div>
-      {props.currentTrack ? <Player trackURI={"spotify:track:" + props.currentTrack.id} /> : <Player />}
+
+      {props.currentTrack ? (
+        <Player
+          setIsPlaying={setIsPlaying}
+          setCurrentTime={setCurrentTime}
+          trackURI={"spotify:track:" + props.currentTrack.id}
+          play={playState}
+        />
+      ) : (
+        <Player />
+      )}
     </div>
   );
 
   function searchResultsRenderCB(track) {
     return (
-      <tr key={track.id} onClick={() => {
-        setCurrentTrack(track);
-        }}>
+      <tr
+        key={track.id}
+        onClick={() => {
+          setCurrentTrack(track);
+        }}
+      >
         <TrackRow data={{ track }} />
       </tr>
     );
@@ -131,30 +164,29 @@ function HomeView(props) {
 
   function logOutUser() {
     localStorage.clear();
-    navigate('/');
-    
+    navigate("/");
   }
 
   function handleSearch(e) {
     if (e.target.value.length > 2) {
       e.preventDefault();
-      const accessToken = localStorage.getItem('access_token');
+      const accessToken = localStorage.getItem("access_token");
       props.setSearchTerm(e.target.value);
       const searchTerm = props.searchTerm;
       setPlaylistTracks(false);
       setUseKaraoke(false);
-      props.search({accessToken, searchTerm});
-   
+      props.search({ accessToken, searchTerm });
     }
   }
 
   function clearSearchInput() {
-    document.getElementById('searchInput').value = '';
+    document.getElementById("searchInput").value = "";
     props.deleteSearchResults();
   }
 
   function setCurrentTrack(track) {
     setUseKaraoke(true);
+    setPlaystate(true);
     props.setCurrentTrack(track);
     props.addToRecent(track.id);
     //ids = playHistory
@@ -164,7 +196,6 @@ function HomeView(props) {
       }
     }
     playHistory.playHistoryList.unshift(track);
-    
   }
 
   async function playlistClick(playlistId) {
@@ -175,7 +206,7 @@ function HomeView(props) {
     props.setSearchTerm(false);
     console.log("hejsan");
     setPlaylistTracks(parsedData);
-  };
+  }
 }
 
 export default HomeView;
