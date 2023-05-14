@@ -30,6 +30,11 @@
   .historybox:hover{
     
     cursor: pointer;
+    background-color: #5D3FD3;
 
 
+  }
+
+  .historybox p{
+    pointer-events: none;
   }
