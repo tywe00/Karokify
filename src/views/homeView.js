@@ -10,7 +10,12 @@ import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
 import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { doSearch } from "../slices/searchResultSlice.js";
 
+//TODO: Add description of what a user can expect of karokify
+//TODO: Add a header on top of sidebar to describe purpose
+//TODO: Indicate the function of lyrics button
 function HomeView(props) {
   const [playState, setPlayState] = useState(false);
   const [album, setAlbum] = useState(null);
@@ -22,33 +27,34 @@ function HomeView(props) {
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
 
-  function setCurrentTrack(track) {
-    console.log("setting track");
-    setUseKaraoke(true);
-    setTrack(track);
-    console.log(track);
-    setPlayer(
-      <Player
-        persistDeviceSelection={true}
-        syncExternalDevice={true}
-        play={playState}
-        trackURI={"spotify:track:" + track.id}
-      />
-    );
-  }
-
-
   useEffect(() => {
-    const accessToken = localStorage.getItem('access_token');
-    getPlaylists(accessToken).then(data => {
-      setPlaylists(data);
-    })
+    console.log("homeview is mounted")
   }, []);
 
-  useEffect(() => {
-    console.log("test");
-    setPlayState(true);
-  });
+  let content = null;
+
+  if (useKaraoke) {
+    content = <Karaoke props={props.currentTrack.id} />;
+  } else if (props.searchResults) {
+    content = (
+      <div className="searchResults">
+        <tbody>
+          <tr>{props.searchResults.map(searchResultsRenderCB)}</tr>
+        </tbody>
+      </div>
+    );
+  } else if (props.playlistTracks) {
+    content = (
+      <div className="searchResults">
+        <tbody>
+          <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
+        </tbody>
+      </div>
+    );
+  } else {
+    content = <p>Loading...</p>;
+  }
+
 
   return (
     <div className="homeView">
@@ -57,60 +63,36 @@ function HomeView(props) {
         {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
         <div className="mainContent">
-        <div className="navbar">
-      <div className="searchBar"><input className="form-control" onChange={handleSearch} type="text" placeholder="Search" /></div>
-      <div className="menu">
-      <nav>
-        <ul>
-          <li>
-            <a href="#" onClick={logOutUser}>Log Out</a>
-          </li>
-        </ul>
-      </nav>
+          <div className="navbar">
+            <div className="searchBar">
+              <input id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+              <button onClick={clearSearchInput}>Clear</button>
+            </div>
+            <div className="menu">
+              <nav>
+                <ul>
+                  <li>
+                    <a href="#" onClick={logOutUser}>Log Out</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
+            {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
+          </button>
+          {content}
+        </div>
       </div>
-    </div>
-          
-          { useKaraoke? (
-            <button className="lyricsToggle" 
-            onClick={()=>setUseKaraoke(!useKaraoke)}>
-            <BsChatSquareQuoteFill />
-          </button>
-          ) : (
-            <button className="lyricsToggle" 
-            onClick={()=>setUseKaraoke(!useKaraoke)}>
-            <BsChatSquareQuote />
-          </button>
-          )}
-          { useKaraoke? ( 
-            <Karaoke props={track.id} />
-          ) : searchResults ? (
-            <div className="searchResults">
-              <tbody>
-                <tr>{searchResults.map(trackRenderCB)}</tr>
-              </tbody>
-            </div>
-          ) : playlistTracks ?  (
-            <div className="searchResults">
-              <tbody>
-                <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
-              </tbody>
-            </div>
-          ): <p>Loading...</p>}
-        </div>
-        </div>
-      {player}
+      {props.currentTrack ? <Player trackURI={"spotify:track:" + props.currentTrack.id} /> : <Player />}
     </div>
   );
 
-  function trackRenderCB(track) {
-    function handleRowClick() {
-      console.log(track.id);
-      setCurrentTrack(track);
-      //setPlayer(<Player play={true} trackURI={"spotify:track:" + trackURI} />);
-    }
-
+  function searchResultsRenderCB(track) {
     return (
-      <tr key={track.id} onClick={handleRowClick}>
+      <tr key={track.id} onClick={() => {
+        setCurrentTrack(track);
+        }}>
         <TrackRow data={{ track }} />
       </tr>
     );
@@ -135,17 +117,26 @@ function HomeView(props) {
     
   }
 
-  async function handleSearch(e) {
+  function handleSearch(e) {
     if (e.target.value.length > 2) {
-
       e.preventDefault();
-      const searchTerm = e.target.value;
       const accessToken = localStorage.getItem('access_token');
-      const searchResults = await getSearchResults(accessToken, searchTerm);
-      setUseKaraoke(false);
-      setSearchResults(searchResults);
-
+      props.setSearchTerm(e.target.value)
+      const searchTerm = props.searchTerm
+      props.search({accessToken, searchTerm});
+   
     }
+  }
+
+  function clearSearchInput() {
+    document.getElementById('searchInput').value = '';
+    props.deleteSearchResults();
+  }
+
+  function setCurrentTrack(track) {
+    setUseKaraoke(true);
+    props.setCurrentTrack(track);
+    props.addToRecent(track.id);
   }
 
   async function playlistClick(playlistId) {
