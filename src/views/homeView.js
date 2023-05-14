@@ -94,13 +94,10 @@ function HomeView(props) {
             </div>
 
           </div>
-          {/* <KaraokeSwitch onClick={() => setUseKaraoke(!useKaraoke)}/>
-          <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
-            {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
-          </button> */}
-          {useKaraoke ? 
+          <div className="toggle">{useKaraoke ? 
           <div><button className="activeKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div> : 
           <div><button className="inactiveKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div>}
+          </div>
           {content}
         </div>
         <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
