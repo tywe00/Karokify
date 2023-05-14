@@ -30,11 +30,7 @@ function HomeView(props) {
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
-  let user_ID = getUserInfo(localStorage.getItem("access_token")).then(
-    (data) => {
-      user_ID = data.id;
-    }
-  );
+  
 
   useEffect(() => {
     console.log("homeview is mounted");
