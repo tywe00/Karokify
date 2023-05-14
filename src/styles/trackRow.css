@@ -1,11 +1,52 @@
+
 .trackRow {
-    display: inline-block;
-    width: 100%;
-    margin-left: 20px;
-    font-family: Helvetica, sans-serif;
-    font-size: 0.9em;
-    vertical-align: middle;
-    color: white;
+  
+  width: 400px;
+  margin: 20px 0;
+  padding: 10px;
+  font-family: Helvetica, sans-serif;
+  font-size: 0.9em;
+  vertical-align: middle;
+  color: white;
+  background-color: #333;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-delay: 0.1s;
+    
+
+  }
+
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(0, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+  .trackRow p,p1 {
+    pointer-events: none;
+    
+
+  }
+
+  .trackRow p1 {
+    color: gray;
+  }
+ 
+
+  
+
+  .trackRow:hover {
+    background-color: #5D3FD3;
+    border: 2px solid #5D3FD3;
   }
   
   .albumArt {

@@ -8,10 +8,14 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks } from "../utils/api.js";
+
+import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
+import TrackHistory from "../components/trackHistory.js";
+import { playHistory } from "../data/historyData.js";
+
 
 //TODO: Add description of what a user can expect of karokify
 //TODO: Add a header on top of sidebar to describe purpose
@@ -26,7 +30,8 @@ function HomeView(props) {
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
-
+  let user_ID = getUserInfo(localStorage.getItem("access_token")).then((data) => { user_ID = data.id});
+  
   useEffect(() => {
     console.log("homeview is mounted")
   }, []);
@@ -66,13 +71,15 @@ function HomeView(props) {
   return (
     <div className="homeView">
       <div className="wrapper">
+    <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
         <div className="sidebar">
         {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
         <div className="mainContent">
+          
           <div className="navbar">
             <div className="searchBar">
-              <input id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+              <input  id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
               <button onClick={clearSearchInput}>Clear</button>
             </div>
             <div className="menu">
@@ -83,8 +90,11 @@ function HomeView(props) {
                   </li>
                 </ul>
               </nav>
+              
             </div>
+
           </div>
+          
           <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
             {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
           </button>
@@ -146,6 +156,14 @@ function HomeView(props) {
     setUseKaraoke(true);
     props.setCurrentTrack(track);
     props.addToRecent(track.id);
+    //ids = playHistory
+    for (let i = 0; i < playHistory.playHistoryList.length; i++) {
+      if (playHistory.playHistoryList[i].id === track.id) {
+        playHistory.playHistoryList.splice(i, 1);
+      }
+    }
+    playHistory.playHistoryList.unshift(track);
+    
   }
 
   async function playlistClick(playlistId) {
