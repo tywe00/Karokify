@@ -18,6 +18,8 @@ import { doSearch } from "../slices/searchResultSlice.js";
 function HomeView(props) {
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
   const [isPlaying, setIsPlaying] = useState(false); // variable to keep track of playing state throughout the app
+  const [currentTime, setCurrentTime] = useState(0);
+  const [playstate, setPlaystate] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +29,13 @@ function HomeView(props) {
   let content = null;
 
   if (useKaraoke) {
-    content = <Karaoke isPlaying={isPlaying} props={props.currentTrack.id} />;
+    content = (
+      <Karaoke
+        currentTime={currentTime}
+        isPlaying={isPlaying}
+        props={props.currentTrack.id}
+      />
+    );
   } else if (props.searchResults) {
     content = (
       <div className="searchResults">
@@ -82,7 +90,9 @@ function HomeView(props) {
       {props.currentTrack ? (
         <Player
           setIsPlaying={setIsPlaying}
+          setCurrentTime={setCurrentTime}
           trackURI={"spotify:track:" + props.currentTrack.id}
+          play={playstate}
         />
       ) : (
         <Player />
@@ -125,6 +135,7 @@ function HomeView(props) {
 
   function setCurrentTrack(track) {
     setUseKaraoke(true);
+    setPlaystate(true);
     props.setCurrentTrack(track);
     props.addToRecent(track.id);
   }

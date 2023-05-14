@@ -94,6 +94,14 @@ function Karaoke(props) {
       });
   }, []);
 
+  // Makes sure playback gets updated if we change position in
+  // the player on the current track
+  useEffect(() => {
+    if (props.currentTime != playback) {
+      setPlayback(props.currentTime);
+    }
+  }, [props.currentTime]);
+
   // Fetch the real progress every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
