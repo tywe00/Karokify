@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TrackRow from "../components/trackRow.js";
+import PlaylistTrackRow from "../components/playlistTrackRow.js";
 import Sidebar from "../components/sidebar.js";
 import Karaoke from "./karaokeView.js";
 import "../styles/homeView.css";
@@ -7,7 +8,7 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
+import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
@@ -16,8 +17,14 @@ import { doSearch } from "../slices/searchResultSlice.js";
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
- 
-  const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
+  const [playState, setPlayState] = useState(false);
+  const [album, setAlbum] = useState(null);
+  const [track, setTrack] = useState(null);
+  const [player, setPlayer] = useState(<Player />);
+  const [useKaraoke, setUseKaraoke] = useState(false);
+  const [playlistsData, setPlaylists] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);
+  const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +43,14 @@ function HomeView(props) {
         </tbody>
       </div>
     );
+  } else if (props.playlistTracks) {
+    content = (
+      <div className="searchResults">
+        <tbody>
+          <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
+        </tbody>
+      </div>
+    );
   } else {
     content = <p>Loading...</p>;
   }
@@ -45,7 +60,7 @@ function HomeView(props) {
     <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
-          <Sidebar playlists={props.userPlayList.playlists} />
+        {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
         <div className="mainContent">
           <div className="navbar">
@@ -83,6 +98,19 @@ function HomeView(props) {
     );
   }
 
+  function playlistTrackRenderCB(track) {
+    function handleRowClick() {
+      setCurrentTrack(track.track);
+      //setPlayer(<Player play={true} trackURI={"spotify:track:" + trackURI} />);
+    }
+
+    return (
+      <tr key={track.id} onClick={handleRowClick}>
+        <PlaylistTrackRow data={{ track }} />
+      </tr>
+    );
+  }
+
   function logOutUser() {
     localStorage.clear();
     navigate('/');
@@ -110,6 +138,14 @@ function HomeView(props) {
     props.setCurrentTrack(track);
     props.addToRecent(track.id);
   }
+
+  async function playlistClick(playlistId) {
+    const tracks = await getPlaylistTracks(playlistId);
+    const parsedData = Object.values(tracks);
+    setUseKaraoke(false);
+    setSearchResults(false);
+    setPlaylistTracks(parsedData);
+  };
 }
 
 export default HomeView;
