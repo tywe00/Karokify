@@ -37,6 +37,7 @@ p:hover {
 ul {
   list-style-type: none;
   padding-left: 0;
+  cursor: pointer;
 }
 
 ul:hover {

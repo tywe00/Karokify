@@ -8,6 +8,7 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
+import KaraokeSwitch from "../components/karaokeSwitch.js";
 
 import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +72,6 @@ function HomeView(props) {
   return (
     <div className="homeView">
       <div className="wrapper">
-    <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
         <div className="sidebar">
         {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
@@ -94,12 +94,16 @@ function HomeView(props) {
             </div>
 
           </div>
-          
+          {/* <KaraokeSwitch onClick={() => setUseKaraoke(!useKaraoke)}/>
           <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
             {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
-          </button>
+          </button> */}
+          {useKaraoke ? 
+          <div><button className="activeKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div> : 
+          <div><button className="inactiveKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div>}
           {content}
         </div>
+        <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
       </div>
       {props.currentTrack ? <Player trackURI={"spotify:track:" + props.currentTrack.id} /> : <Player />}
     </div>
