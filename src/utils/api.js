@@ -16,11 +16,12 @@ function getAlbum() {
 
 async function getCurrentPlaybackPosition() {
   const url = "https://api.spotify.com/v1/me/player";
+  const localAccessToken = localStorage.getItem("access_token");
 
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${localAccessToken}`,
     },
   });
   const data = await response.json();
@@ -37,25 +38,45 @@ function getPlaylists(accessToken) {
       'Authorization': `Bearer ${accessToken}`
     }
   })
-  .then(response => response.json())
-  .then(data => data)
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+    const playlists = data.items.map(item => {
+      return {
+        name: item.name,
+        id: item.id
+      };
+    });
+    return playlists;
+    }
+  )
 }
 
-async function getPlaylistTracks(playlistId, accessToken) {
-  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+
+async function getPlaylistTracks(playlistId) {
+  const localAccessToken = localStorage.getItem("access_token");
+  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${localAccessToken}`,
       'Content-Type': 'application/json'
     }
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch playlist tracks');
+    const errorResponse = await response.json();
+    throw new Error(`Failed to fetch playlist tracks: ${errorResponse.error.message}`);
   }
 
   const data = await response.json();
-
-  return data.items;
+  if (data.tracks.items != undefined && data.tracks.items != null) {
+    const parsedData = Object.values(data.tracks.items)
+    parsedData.map(e => e.track);
+    return parsedData;
+  } else {
+    console.log("Playlist tracks undefined")
+  }
+  return undefined;
 }
 
 function getSearchResults(accessToken, searchTerm) {

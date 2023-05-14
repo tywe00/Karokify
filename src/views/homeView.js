@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TrackRow from "../components/trackRow.js";
+import PlaylistTrackRow from "../components/playlistTrackRow.js";
 import Sidebar from "../components/sidebar.js";
 import Karaoke from "./karaokeView.js";
 import "../styles/homeView.css";
@@ -7,7 +8,8 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import { getAlbum, getPlaylists,getSearchResults,getUserInfo } from "../utils/api.js";
+
+import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
@@ -19,8 +21,14 @@ import { playHistory } from "../data/historyData.js";
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
- 
-  const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
+  const [playState, setPlayState] = useState(false);
+  const [album, setAlbum] = useState(null);
+  const [track, setTrack] = useState(null);
+  const [player, setPlayer] = useState(<Player />);
+  const [useKaraoke, setUseKaraoke] = useState(false);
+  const [playlistsData, setPlaylists] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);
+  const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
   let user_ID = getUserInfo(localStorage.getItem("access_token")).then((data) => { user_ID = data.id});
   
@@ -28,10 +36,25 @@ function HomeView(props) {
     console.log("homeview is mounted")
   }, []);
 
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    getPlaylists(accessToken).then(data => {
+      setPlaylists(data);
+    })
+  }, []);
+
   let content = null;
 
   if (useKaraoke) {
     content = <Karaoke props={props.currentTrack.id} />;
+  } else if (playlistTracks) {
+    content = (
+      <div className="searchResults">
+        <tbody>
+          <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
+        </tbody>
+      </div>
+    );
   } else if (props.searchResults) {
     content = (
       <div className="searchResults">
@@ -50,7 +73,7 @@ function HomeView(props) {
       <div className="wrapper">
     <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
         <div className="sidebar">
-          <Sidebar playlists={props.userPlayList.playlists} />
+        {playlistsData && <Sidebar playlists={playlistsData} playlistClick={playlistClick} setAlbumData={props.setAlbumData} />}
         </div>
         <div className="mainContent">
           
@@ -92,6 +115,19 @@ function HomeView(props) {
     );
   }
 
+  function playlistTrackRenderCB(track) {
+    function handleRowClick() {
+      setCurrentTrack(track.track);
+      //setPlayer(<Player play={true} trackURI={"spotify:track:" + trackURI} />);
+    }
+
+    return (
+      <tr key={track.id} onClick={handleRowClick}>
+        <PlaylistTrackRow data={{ track }} />
+      </tr>
+    );
+  }
+
   function logOutUser() {
     localStorage.clear();
     navigate('/');
@@ -102,8 +138,10 @@ function HomeView(props) {
     if (e.target.value.length > 2) {
       e.preventDefault();
       const accessToken = localStorage.getItem('access_token');
-      props.setSearchTerm(e.target.value)
-      const searchTerm = props.searchTerm
+      props.setSearchTerm(e.target.value);
+      const searchTerm = props.searchTerm;
+      setPlaylistTracks(false);
+      setUseKaraoke(false);
       props.search({accessToken, searchTerm});
    
     }
@@ -127,6 +165,16 @@ function HomeView(props) {
     playHistory.playHistoryList.unshift(track);
     
   }
+
+  async function playlistClick(playlistId) {
+    const tracks = await getPlaylistTracks(playlistId);
+    const parsedData = Object.values(tracks);
+    setUseKaraoke(false);
+    setSearchResults(false);
+    props.setSearchTerm(false);
+    console.log("hejsan");
+    setPlaylistTracks(parsedData);
+  };
 }
 
 export default HomeView;
