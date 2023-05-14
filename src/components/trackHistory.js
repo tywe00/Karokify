@@ -17,12 +17,12 @@ function TrackHistory(props) {
     
   return (
     <div className="playHistory" >
-        This is your play history
+        <h1>Recent played Tracks</h1>
         {props.data.playHistoryList.map(item => {
           return (
           <div onClick={() => handleCLick(item)} key={item.name} className="historybox">
           
-          <p style={{ display: "block" }}>{item.name}</p>
+          <p1 style={{ display: "block" }}>{item.name}</p1>
           
           
           </div>
