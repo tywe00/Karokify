@@ -1,6 +1,6 @@
 
 .trackRow {
-  display: block;
+  
   width: 400px;
   margin: 20px 0;
   padding: 10px;
@@ -33,6 +33,12 @@
 
   .trackRow span {
     pointer-events: none;
+    
+
+  }
+
+  .trackRow p1 {
+    color: gray;
   }
 
   

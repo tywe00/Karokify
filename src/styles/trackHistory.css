@@ -2,17 +2,19 @@
     grid-area: sidebar;
     grid-column: 1;
     grid-row: 1;
-    width: 200px;
+    width: 300px;
     height: auto;
-    margin-right: 50px;
     padding: 10px;
     background-color: #121212;
     color: white;
-    border-radius: 10px;
-    /* overflow-y: scroll; */
+    /* border-radius: 10px; */
     margin-top: 50px;
     color: #FFF;
 	  font: 14px/19px  "Helvetica", "Arial", sans-serif;
+    text-align: center;
+    font-size: medium;
+    
+    
 
   }
 

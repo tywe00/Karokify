@@ -22,7 +22,7 @@ function HomeView(props) {
  
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
   const navigate = useNavigate();
-  let user_ID = getUserInfo(localStorage.getItem("access_token")).then((data) => { user_ID = data.id; console.log(user_ID);});
+  let user_ID = getUserInfo(localStorage.getItem("access_token")).then((data) => { user_ID = data.id});
   
   useEffect(() => {
     console.log("homeview is mounted")
@@ -48,7 +48,7 @@ function HomeView(props) {
   return (
     <div className="homeView">
       <div className="wrapper">
-    <div><TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/></div>
+    <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
         <div className="sidebar">
           <Sidebar playlists={props.userPlayList.playlists} />
         </div>
