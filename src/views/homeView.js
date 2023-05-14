@@ -8,7 +8,6 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-
 import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -21,6 +20,8 @@ import { playHistory } from "../data/historyData.js";
 //TODO: Add a header on top of sidebar to describe purpose
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
+  const [isPlaying, setIsPlaying] = useState(false); // variable to keep track of playing state throughout the app
+  const [currentTime, setCurrentTime] = useState(0);
   const [playState, setPlayState] = useState(false);
   const [album, setAlbum] = useState(null);
   const [track, setTrack] = useState(null);
@@ -33,7 +34,7 @@ function HomeView(props) {
   let user_ID = getUserInfo(localStorage.getItem("access_token")).then((data) => { user_ID = data.id});
   
   useEffect(() => {
-    console.log("homeview is mounted")
+    console.log("homeview is mounted");
   }, []);
 
   useEffect(() => {
@@ -46,7 +47,12 @@ function HomeView(props) {
   let content = null;
 
   if (useKaraoke) {
-    content = <Karaoke props={props.currentTrack.id} />;
+    content = (
+      <Karaoke
+        currentTime={currentTime}
+        isPlaying={isPlaying}
+        props={props.currentTrack.id}
+      />
   } else if (playlistTracks) {
     content = (
       <div className="searchResults">
@@ -67,7 +73,6 @@ function HomeView(props) {
     content = <p>Loading...</p>;
   }
 
-
   return (
     <div className="homeView">
       <div className="wrapper">
@@ -78,14 +83,18 @@ function HomeView(props) {
           
           <div className="navbar">
             <div className="searchBar">
+
               <input  id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+
               <button onClick={clearSearchInput}>Clear</button>
             </div>
             <div className="menu">
               <nav>
                 <ul>
                   <li>
-                    <a href="#" onClick={logOutUser}>Log Out</a>
+                    <a href="#" onClick={logOutUser}>
+                      Log Out
+                    </a>
                   </li>
                 </ul>
               </nav>
@@ -94,8 +103,10 @@ function HomeView(props) {
             </div>
 
           </div>
+
           
           <button className="lyricsToggle" onClick={() => setUseKaraoke(!useKaraoke)}>
+
             {useKaraoke ? <BsChatSquareQuoteFill /> : <BsChatSquareQuote />}
           </button>
           {content}
@@ -103,15 +114,28 @@ function HomeView(props) {
       <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
       </div>
 
-      {props.currentTrack ? <Player trackURI={"spotify:track:" + props.currentTrack.id} /> : <Player />}
+      {props.currentTrack ? (
+        <Player
+          setIsPlaying={setIsPlaying}
+          setCurrentTime={setCurrentTime}
+          trackURI={"spotify:track:" + props.currentTrack.id}
+          play={playstate}
+        />
+      ) : (
+        <Player />
+      )}
+
     </div>
   );
 
   function searchResultsRenderCB(track) {
     return (
-      <tr key={track.id} onClick={() => {
-        setCurrentTrack(track);
-        }}>
+      <tr
+        key={track.id}
+        onClick={() => {
+          setCurrentTrack(track);
+        }}
+      >
         <TrackRow data={{ track }} />
       </tr>
     );
@@ -132,8 +156,7 @@ function HomeView(props) {
 
   function logOutUser() {
     localStorage.clear();
-    navigate('/');
-    
+    navigate("/");
   }
 
   function handleSearch(e) {
@@ -145,17 +168,18 @@ function HomeView(props) {
       setPlaylistTracks(false);
       setUseKaraoke(false);
       props.search({accessToken, searchTerm});
-   
+  
     }
   }
 
   function clearSearchInput() {
-    document.getElementById('searchInput').value = '';
+    document.getElementById("searchInput").value = "";
     props.deleteSearchResults();
   }
 
   function setCurrentTrack(track) {
     setUseKaraoke(true);
+    setPlaystate(true);
     props.setCurrentTrack(track);
     props.addToRecent(track.id);
     //ids = playHistory
