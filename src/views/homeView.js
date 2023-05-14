@@ -31,23 +31,30 @@ function HomeView(props) {
     console.log("homeview is mounted")
   }, []);
 
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    getPlaylists(accessToken).then(data => {
+      setPlaylists(data);
+    })
+  }, []);
+
   let content = null;
 
   if (useKaraoke) {
     content = <Karaoke props={props.currentTrack.id} />;
+  } else if (playlistTracks) {
+    content = (
+      <div className="searchResults">
+        <tbody>
+          <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
+        </tbody>
+      </div>
+    );
   } else if (props.searchResults) {
     content = (
       <div className="searchResults">
         <tbody>
           <tr>{props.searchResults.map(searchResultsRenderCB)}</tr>
-        </tbody>
-      </div>
-    );
-  } else if (props.playlistTracks) {
-    content = (
-      <div className="searchResults">
-        <tbody>
-          <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
         </tbody>
       </div>
     );
@@ -121,8 +128,10 @@ function HomeView(props) {
     if (e.target.value.length > 2) {
       e.preventDefault();
       const accessToken = localStorage.getItem('access_token');
-      props.setSearchTerm(e.target.value)
-      const searchTerm = props.searchTerm
+      props.setSearchTerm(e.target.value);
+      const searchTerm = props.searchTerm;
+      setPlaylistTracks(false);
+      setUseKaraoke(false);
       props.search({accessToken, searchTerm});
    
     }
@@ -144,6 +153,8 @@ function HomeView(props) {
     const parsedData = Object.values(tracks);
     setUseKaraoke(false);
     setSearchResults(false);
+    props.setSearchTerm(false);
+    console.log("hejsan");
     setPlaylistTracks(parsedData);
   };
 }

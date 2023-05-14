@@ -53,27 +53,12 @@ function getPlaylists(accessToken) {
   )
 }
 
-/* async function getPlaylists() {
-  const response = await fetch(playlistUrl, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  });
-  const data = await response.json();
-  const playlists = data.items.map(item => {
-    return {
-      name: item.name,
-      id: item.tracks.href.split('playlists/')[1]
-    };
-  });
-  return playlists;
-} */
 
 async function getPlaylistTracks(playlistId) {
+  const localAccessToken = localStorage.getItem("access_token");
   const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${localAccessToken}`,
       'Content-Type': 'application/json'
     }
   });
@@ -102,14 +87,11 @@ function getSearchResults(accessToken, searchTerm) {
       'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
     }
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch search results');
-  }
-
-  const data = await response.json();
-  return data.tracks.items;
+  })
+  .then(response => response.json())
+  .then(data => {
+    return data.tracks.items;
+  })
 }
 
 
