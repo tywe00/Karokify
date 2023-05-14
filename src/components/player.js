@@ -2,6 +2,10 @@ import React from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 
 export default function Player(props) {
+  function CB(player) {
+    console.log(player);
+    props.setIsPlaying(player.isPlaying);
+  }
   const token = localStorage.getItem("access_token");
   if (token) {
     return (
@@ -14,6 +18,7 @@ export default function Player(props) {
           persistDeviceSelection={true}
           syncExternalDevice={true}
           play={true}
+          callback={CB}
           hideAttribution="true"
           styles={{
             activeColor: "blue",

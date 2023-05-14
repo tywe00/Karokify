@@ -17,6 +17,7 @@ import { doSearch } from "../slices/searchResultSlice.js";
 //TODO: Indicate the function of lyrics button
 function HomeView(props) {
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
+  const [isPlaying, setIsPlaying] = useState(false); // variable to keep track of playing state throughout the app
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function HomeView(props) {
   let content = null;
 
   if (useKaraoke) {
-    content = <Karaoke props={props.currentTrack.id} />;
+    content = <Karaoke isPlaying={isPlaying} props={props.currentTrack.id} />;
   } else if (props.searchResults) {
     content = (
       <div className="searchResults">
@@ -79,7 +80,10 @@ function HomeView(props) {
         </div>
       </div>
       {props.currentTrack ? (
-        <Player trackURI={"spotify:track:" + props.currentTrack.id} />
+        <Player
+          setIsPlaying={setIsPlaying}
+          trackURI={"spotify:track:" + props.currentTrack.id}
+        />
       ) : (
         <Player />
       )}

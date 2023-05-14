@@ -14,6 +14,7 @@ function Karaoke(props) {
   const [activeLine, setActiveLine] = useState(-1);
   const [currentTime, setCurrentTime] = useState(0);
   const [playback, setPlayback] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   function findActiveLineIndex(lines, currentPlaybackTime) {
     let activeLineIndex = -1;
@@ -108,14 +109,21 @@ function Karaoke(props) {
 
   // Update the playback position locally every second
   useEffect(() => {
-    const localInterval = setInterval(() => {
-      setPlayback((playback) => playback + 100);
-    }, 100);
+    let localInterval;
+    if (props.isPlaying) {
+      localInterval = setInterval(() => {
+        setPlayback((playback) => playback + 100);
+      }, 100);
+    } else {
+      if (localInterval) {
+        clearInterval(localInterval);
+      }
+    }
 
     return () => {
       clearInterval(localInterval);
     };
-  }, []);
+  }, [props.isPlaying]);
 
   //useEffect(() => {
   //  console.log(playback);
