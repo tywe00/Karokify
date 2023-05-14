@@ -5,24 +5,26 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setRefreshToken } from "../slices/tokenSlice";
 import { fetchPlayLists } from "../slices/userSpotifyPlist";
+import { getUserInfo, setuserID } from "../slices/userInfo";
+import { getUserSpotifyProfile } from "../utils/api";
 
 function LoadingPage() {
 
     const [codeFlag, setcodeFlag] = useState(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        const code = new URLSearchParams(window.location.search).get("code");
-        handleCodeExchange(code).then(data => {
-            dispatch(setAccessToken(data.access_token));
-            dispatch(setRefreshToken(data.refresh_token));
-            dispatch(fetchPlayLists(data.access_token));
-            setcodeFlag(true);
-        });
-        if(codeFlag) {
-            navigate("/homeView");
+        async function getToken() {
+            const code = new URLSearchParams(window.location.search).get("code");
+            const data = await handleCodeExchange(code);
+            if(data) {
+                setcodeFlag(true);
+            }
+            if(codeFlag) {
+                navigate("/fetchingData");
+            }
         }
+        getToken();
     }, [codeFlag]);
 
     return(

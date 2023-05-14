@@ -7,6 +7,8 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import { searchResultsReducer } from "../slices/searchResultSlice";
+import persistToFirebase from "../persistance/firebaseModel";
+import { userInfoReducer } from "../slices/userInfo";
 
 const persistConfig = {
     key: "root",
@@ -15,6 +17,7 @@ const persistConfig = {
 };
 
 const reducer = combineReducers({
+    userInfo : userInfoReducer,
     tokenInfo : tokenReducer,
     playedHistory : playHistoryReducer,
     userSpotifyPlayList : userSpotifyPlistReducer,
@@ -27,5 +30,8 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
     reducer: persistedReducer
 })
+
+store.subscribe(persistToFirebase);
+
 
 export default store;

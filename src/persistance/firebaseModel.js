@@ -7,8 +7,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const PATH = "Karokify/Users";
 
-const rf = ref(db, PATH+"0001");
-set(rf, "firebase");
+const rf = ref(db, PATH+"/0001");
 
 function persistToFirebase() {
     const state = store.getState();
@@ -16,7 +15,7 @@ function persistToFirebase() {
     set(rf, playedHistory);
 }
 
-store.subscribe(persistToFirebase);
+export default persistToFirebase;
 
 
 

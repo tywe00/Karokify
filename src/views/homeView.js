@@ -7,10 +7,11 @@ import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
 import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import { getAlbum, getPlaylists,getSearchResults } from "../utils/api.js";
+import { getAlbum, getPlaylists,getSearchResults, getUserSpotifyProfile } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
+import { setuserID } from "../slices/userInfo.js";
 
 //TODO: Add description of what a user can expect of karokify
 //TODO: Add a header on top of sidebar to describe purpose
@@ -19,9 +20,11 @@ function HomeView(props) {
  
   const [useKaraoke, setUseKaraoke] = useState(false); //state to hold a conditional value to render karokie view
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     console.log("homeview is mounted")
+    console.log(props);
   }, []);
 
   let content = null;
@@ -92,7 +95,7 @@ function HomeView(props) {
   function handleSearch(e) {
     if (e.target.value.length > 2) {
       e.preventDefault();
-      const accessToken = localStorage.getItem('access_token');
+      const accessToken = props.tokenInfo.accessToken;
       props.setSearchTerm(e.target.value)
       const searchTerm = props.searchTerm
       props.search({accessToken, searchTerm});
