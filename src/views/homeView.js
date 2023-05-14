@@ -56,7 +56,7 @@ function HomeView(props) {
           
           <div className="navbar">
             <div className="searchBar">
-              <input id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
+              <input  id="searchInput" className="form-control" onChange={handleSearch} type="text" placeholder="Search" />
               <button onClick={clearSearchInput}>Clear</button>
             </div>
             <div className="menu">
