@@ -11,10 +11,10 @@ export default function Player(props) {
           uris={props.trackURI ? [props.trackURI] : []}
           theme="black"
           layout="responsive"
-          persistDeviceSelection={props.persistDeviceSelection}
+          persistDeviceSelection={true}
+          syncExternalDevice={true}
+          play={true}
           hideAttribution="true"
-          play={props.play}
-          //customComponents={customComponents}
           styles={{
             activeColor: "blue",
             color: "#eeeeee",

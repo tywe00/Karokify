@@ -93,17 +93,33 @@ function Karaoke(props) {
       });
   }, []);
 
+  // Fetch the real progress every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       getCurrentPlaybackPosition().then((data) => {
         setPlayback(data.progress_ms);
       });
-    }, 100);
+    }, 10000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [playback]);
+  }, []);
+
+  // Update the playback position locally every second
+  useEffect(() => {
+    const localInterval = setInterval(() => {
+      setPlayback((playback) => playback + 100);
+    }, 100);
+
+    return () => {
+      clearInterval(localInterval);
+    };
+  }, []);
+
+  //useEffect(() => {
+  //  console.log(playback);
+  //}, [playback]);
 
   return (
     <div>
