@@ -6,11 +6,7 @@ import Karaoke from "./karaokeView.js";
 import "../styles/homeView.css";
 import "../styles/nav.css";
 import Player from "../components/player";
-import Navbar from "../components/navbar.js";
-import { getAlbum, getPlaylists,getSearchResults, getUserSpotifyProfile, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { doSearch } from "../slices/searchResultSlice.js";
 import { subscribeToStore } from "../store/store.js";
 import TrackHistory from "../components/trackHistory.js";
 import { getPlaylistTracks } from "../utils/api.js";
@@ -26,21 +22,12 @@ function HomeView(props) {
   const [useKaraoke, setUseKaraoke] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate()
-  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("homeview is mounted")
     console.log(props);
   }, [])
 
-  // todo change this use effect to use the redux store
- /*  useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    getPlaylists(accessToken).then((data) => {
-      //setPlaylists(data);
-    });
-  }, []); */
-  
   useEffect(() => {
     if(props.persistedData.dataisLoaded === true) {
         subscribeToStore(props.userInfo.userID.id);
