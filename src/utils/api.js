@@ -1,4 +1,5 @@
 const accessToken = localStorage.getItem("access_token");
+export const lyricEndpointURL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
 
 function getAlbum() {
   const url = "https://api.spotify.com/v1/albums/4xdRjOhY9NHmMpI7U3e2c3";
@@ -121,31 +122,5 @@ async function getUserSpotifyProfile(accessToken) {
 }
 
 
-let userInfo;
-
-async function getUserInfo(accessToken) {
-  if (!accessToken || userInfo) {
-    return userInfo;
-  } else {
-    const response = await fetch(`https://api.spotify.com/v1/me`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch user info');
-    }
-
-   
-
-
-
-    return  await response.json();
-  }
-}
-
-
-export { getAlbum, getPlaylists, getPlaylistTracks, getSearchResults, getCurrentPlaybackPosition, getUserSpotifyProfile, getUserInfo };
+export { getAlbum, getPlaylists, getPlaylistTracks, getSearchResults, getCurrentPlaybackPosition, getUserSpotifyProfile };
 
