@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
 import { subscribeToStore } from "../store/store.js";
 import TrackHistory from "../components/trackHistory.js";
-import { playHistory } from "../data/historyData.js";
 import { getPlaylistTracks } from "../utils/api.js";
 
 
@@ -118,7 +117,7 @@ function HomeView(props) {
           </div>
           {content}
         </div>
-        <TrackHistory data = {playHistory} setCurrentTrack = {setCurrentTrack}/>
+        <TrackHistory data = {props.recentTracks} setCurrentTrack = {setCurrentTrack}/>
       </div>
 
       {props.currentTrack ? (
@@ -189,12 +188,12 @@ function HomeView(props) {
     props.setCurrentTrack(track);
     props.addToRecent(track);
     //ids = playHistory
-    for (let i = 0; i < playHistory.playHistoryList.length; i++) {
-      if (playHistory.playHistoryList[i].id === track.id) {
-        playHistory.playHistoryList.splice(i, 1);
-      }
-    }
-    playHistory.playHistoryList.unshift(track);
+    // for (let i = 0; i < playHistory.playHistoryList.length; i++) {
+    //   if (playHistory.playHistoryList[i].id === track.id) {
+    //     playHistory.playHistoryList.splice(i, 1);
+    //   }
+    // }
+    
   }
 
   async function playlistClick(playlistId) {

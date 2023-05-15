@@ -4,8 +4,10 @@ import "../styles/trackHistory.css";
 
 function TrackHistory(props) {
 
-  console.log(props.data)
+  console.log(props)
+
     
+
 
     function handleCLick(item) {
         console.log(item)
@@ -18,7 +20,7 @@ function TrackHistory(props) {
   return (
     <div className="playHistory" >
         <h1>Recently played tracks</h1>
-        {props.data.playHistoryList.map(item => {
+        {props.data.map(item => {
           return (
           <div onClick={() => handleCLick(item)} key={item.name} className="historybox">
             <table>
