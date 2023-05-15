@@ -1,51 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Lrc } from "react-lrc";
 import "../styles/karaoke.css";
-import Player from "../components/player";
-import { getCurrentPlaybackPosition } from "../utils/api";
+import { getCurrentPlaybackPosition, lyricEndpointURL } from "../utils/api";
 
-const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
-const trackID = "6ich2xMH5AR39V85miIAN8";
-//const api = URL + trackID + "&format=lrc";
-//https://open.spotify.com/track/6ich2xMH5AR39V85miIAN8?si=a2160d7cc4394b40
+
 
 function Karaoke(props) {
   const [lyrics, setLyrics] = useState([]);
   const [activeLine, setActiveLine] = useState(-1);
-  const [currentTime, setCurrentTime] = useState(0);
   const [playback, setPlayback] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [lyricAPIresult, setLyricAPIresult] = useState(0);
 
-  function findActiveLineIndex(lines, currentPlaybackTime) {
-    let activeLineIndex = -1;
-    let smallestDiff = Number.MAX_SAFE_INTEGER;
-
-    for (let i = 0; i < lines.length; i++) {
-      const lineStartTime = lines[i].startMillisecond;
-      const diff = Math.abs(currentPlaybackTime - lineStartTime);
-
-      if (diff < smallestDiff) {
-        activeLineIndex = i;
-        smallestDiff = diff;
-      }
-    }
-
-    return activeLineIndex;
-  }
+  useEffect(() => {
+    getCurrentPlaybackPosition().then((data) => {
+      setPlayback(data.progress_ms);
+    });
+  }, [props.onRender()]);
 
   function closeToTime(lineTime, playbackTime, ms) {
     return Math.abs(lineTime - playbackTime) < ms;
   }
 
   function closeToLine(lineNumber, playbackLine, ms) {
-    return Math.abs(lineNumber - playbackLine) <= 3;
+    return Math.abs(lineNumber - playbackLine) <= 2;
   }
 
   function lineRenderer(data) {
     const currentLineNumber = data.line.lineNumber;
     const lineTime = data.line.startMillisecond;
     const active = activeLine === currentLineNumber ? true : false;
-    if (closeToTime(lineTime, playback, 250)) {
+    if (closeToTime(lineTime, playback, 750)) {
       setActiveLine(data.line.lineNumber);
     }
 
@@ -58,10 +42,6 @@ function Karaoke(props) {
             color: active ? "#eeeeee" : "#888888",
             fontWeight: active ? "bold" : "normal",
             lineHeight: active ? "2em" : "2em",
-            //margin: "20px",
-            //display: "flex",
-            //justifyContent: "center",
-            //flexDirection: "column",
             textAlign: "center",
           }}
         >
@@ -71,25 +51,36 @@ function Karaoke(props) {
     }
   }
 
-  function CB(line) {
+  function lineToLrcCB(line) {
     if (!line) return;
-    //if (line.words.length === 1) return;
     if (!line.timeTag || !line.words) return;
     return String("[" + line.timeTag + "]" + line.words);
   }
 
-  useEffect(() => {
-    fetch(URL + props.props + "&format=lrc")
+  /*
+    setLyricAPIresult ->
+      0 = Loading lyrics
+      1 = No lyrics availabel
+      2 = Lyrics loaded
+  */
+  function fetchURL() {
+    setLyricAPIresult(0);
+    fetch(lyricEndpointURL + props.props + "&format=lrc")
       .then((response) => response.json())
       .then((data) => {
-        const lyrs = data.lines.map(CB);
+        const lyrs = data.lines.map(lineToLrcCB);
         const str = lyrs.join("\n");
         setLyrics(str);
         setActiveLine(activeLine + 1);
+        setLyricAPIresult(2);
       })
       .catch((err) => {
-        'console.log'(err.message);
+        setLyricAPIresult(1);
+        console.log(err.message);
       });
+  }
+  useEffect(() => {
+    fetchURL();
   }, []);
 
   // Makes sure playback gets updated if we change position in
@@ -106,33 +97,44 @@ function Karaoke(props) {
       getCurrentPlaybackPosition().then((data) => {
         setPlayback(data.progress_ms);
       });
-
     }, 10000);
-
 
     return () => {
       clearInterval(interval);
     };
   }, []);
 
+  function updateLocal() {
+    let interval;
+    if (props.isPlaying) {
+      interval = setInterval(() => {
+        setPlayback((playback) => playback + 50);
+      }, 50);
+    } else {
+      if (interval) {
+        clearInterval(interval);
+      }
+    }
+    return interval;
+  }
+
   // Update the playback position locally every second
   useEffect(() => {
     let localInterval;
-    if (props.isPlaying) {
-      localInterval = setInterval(() => {
-        setPlayback((playback) => playback + 100);
-      }, 100);
-    } else {
-      if (localInterval) {
-        clearInterval(localInterval);
-      }
-    }
-
+    localInterval = updateLocal();
     return () => {
       clearInterval(localInterval);
     };
   }, [props.isPlaying]);
 
+
+  function loading() {
+    if (lyricAPIresult === 0) {
+      return <h1>LOADING...</h1>;
+    } else if (lyricAPIresult === 1) {
+      return <h1>No lyrics available...</h1>;
+    }
+  }
 
   return (
     <div>
@@ -148,7 +150,7 @@ function Karaoke(props) {
           </div>
         </div>
       ) : (
-        <h1>LOADING...</h1>
+        loading()
       )}
     </div>
   );

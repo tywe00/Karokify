@@ -20,12 +20,7 @@ const userSpotifyPlist = createSlice({
         })
         builder.addCase(fetchPlayLists.fulfilled, (state,action) => {
             state.loading = false
-            state.playlists = action.payload.items.map(item => {
-                return {
-                  name: item.name,
-                  id: item.tracks.href.split('playlists/')[1]
-                };
-              });
+            state.playlists = action.payload
             state.error = ''
         })
         builder.addCase(fetchPlayLists.rejected, (state,action) => {

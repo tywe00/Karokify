@@ -6,13 +6,20 @@ Karaokify is a web application based on the Spotify Web API. The app will consis
 
 ## What we have done so far
 
-We currently have two views, the login view and the home view. The login view enables users to gain access to an authorization token by loggin in with their Spotify account. By doing that, a user is able to access the home view, where their authorization token is used to make calls to the Spotify API.
+In the app, the user is able to do the following:
 
-##### Note: Currently, in order to use the app, you will have to send us your email adress for your Spotify account.
+- Login to the app with spotify authentication. No need to sign up and create an account
+- Search after songs for playback. Lyrics is displayed automatically
+- The user can access their spotify playlists in the app. The content is also accessible in the app for playback
+- Toggle between home-view and lyrics
+- Access the playback history and directly play them from the home-view
+- Do API-calls to spotify for the whole functionality of the app
+- Store currentPlayingTrack and playback history in firebase realtime database
 
-## What we plan to do
+## Setup
 
-What is left to do is to implement the fundamental functionality of the app. So far we have taken care of authentication and basic api rendering. The things we are going to focus on doing now is being able to access your playlists, search for songs/albums, play songs and access lyrics for them. Lyrics can not be accessed through the Spotify Web API, so we will have to use some third party libraries for this.
+Currently, in order to use the app, you will have to send us your email adress for your Spotify account. Additionally, you must have a spotify account inorder to login. We also would like to remind anyone wishing to use the app that they must have a premium spoitfy account as some of the components unfortunately require that.
+
 
 ## Project file structure
 
@@ -31,19 +38,14 @@ What is left to do is to implement the fundamental functionality of the app. So 
 **src/utils**: Api and authorization functions
 
 
-**src/views**: All views used in the project
+**src/views**: All views used in the project. 
 
 
+**src/store**: The redux store
 
 
-
-These will all be used later for **redux**.
-
-
-**src/actions**:
+**src/slices**: All the slices for store
 
 
-**src/store**:
+**src/persistance**: FirebaseConfig & function that updates firebase realtime database
 
-
-**src/reducers**:
