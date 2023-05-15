@@ -2,8 +2,6 @@ import React from "react";
 import "../styles/trackHistory.css";
 
 function TrackHistory(props) {
-  console.log(props);
-
 
   function handleCLick(item) {
     props.setUseKaraoke(false);

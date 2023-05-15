@@ -4,7 +4,6 @@ import SpotifyPlayer from "react-spotify-web-playback";
 export default function Player(props) {
 
   function onPlayerChangeCB(player) {
-    console.log(player);
     props.setIsPlaying(player.isPlaying);
     props.setCurrentTime(player.progressMs);
   }

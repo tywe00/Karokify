@@ -17,7 +17,6 @@ function App() {
         <Route path="/homeView" element={<HomePresenter />}></Route>
         <Route path="/loadingPage" element={<LoadingPage />}></Route>
         <Route path="/fetchingData" element={<LoadingPageTwo />}></Route>
-        <Route path="/persistingData" element={< LoadingPageThree/>}></Route>
       </Routes>
     </BrowserRouter>
   );

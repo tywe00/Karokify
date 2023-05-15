@@ -20,7 +20,6 @@ function LoadingPageTwo() {
                 dispatch(setAccessToken(token));
                 dispatch(setRefreshToken(refreshtoken));
                 dispatch(fetchPlayLists(token));
-                console.log("dispatched fetchplaylists");
                 const userID = await dispatch(getUserInfo(token)).unwrap();
                 dispatch(fetchFromFirebase(userID.id));
                 setReady(true);                
@@ -28,7 +27,6 @@ function LoadingPageTwo() {
         }
         fetchData();
         if(ready) {
-            //navigate("/persistingData");
             navigate("/homeView");
 
         }
