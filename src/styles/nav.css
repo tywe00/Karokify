@@ -42,6 +42,25 @@ nav {
 
   .searchBar {
     /*background-color: #5D3FD3;*/
+    
+  }
+
+  .searchBar input {
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #5D3FD3;
+    padding-left: 10px;
+  }
+
+  .searchBar button {
+    width: 50px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #5D3FD3;
+    background-color: #5D3FD3;
+    color: #eeeeee;
+    margin-left: 10px;
   }
 
   .menu {

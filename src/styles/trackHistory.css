@@ -1,0 +1,70 @@
+.playHistory {
+    grid-area: sidebar;
+    grid-column: 1;
+    grid-row: 1;
+    width: 210px;
+    min-width: 210px;
+    overflow-y: auto;
+    height: calc(100vh - 100px);
+    /*height: calc(100% - 20px);*/
+    padding: 10px;
+    background-color: #121212;
+    color: white;
+    
+    color: #FFF;
+	  font: 14px/19px  "Helvetica", "Arial", sans-serif;
+    text-align: center;
+    font-size: medium;
+    
+    
+
+  }
+
+  .playHistory h1{
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 31px;
+    margin-bottom: 40px;
+
+  }
+
+  .albumArt1 {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    left:
+  }
+
+
+
+  .historybox {
+    background-color: #212121;
+    display: flex;
+    margin-top: 15px;
+    margin-left: 10px;
+    border-radius: 10px;
+    align-items: center;
+    font-size: small;
+    text-align: center;
+    width: 180px;
+    min-height: 50px;
+  }
+  
+  .historybox:hover {
+    cursor: pointer;
+    background-color: #5D3FD3;
+  }
+  
+  .albumArt {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    border-radius: 10px;
+  }
+  
+  .historybox p {
+    margin: 0;
+    text-align: left;
+    pointer-events: none;
+  }
+  
