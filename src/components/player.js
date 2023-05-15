@@ -2,7 +2,7 @@ import React from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 
 export default function Player(props) {
-  function CB(player) {
+  function onPlayerChangeCB(player) {
     console.log(player);
     props.setIsPlaying(player.isPlaying);
     props.setCurrentTime(player.progressMs);
@@ -19,7 +19,7 @@ export default function Player(props) {
           persistDeviceSelection={true}
           syncExternalDevice={true}
           play={props.play}
-          callback={CB}
+          callback={onPlayerChangeCB}
           hideAttribution="true"
           styles={{
             activeColor: "blue",

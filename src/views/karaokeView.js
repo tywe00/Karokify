@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Lrc } from "react-lrc";
 import "../styles/karaoke.css";
-import Player from "../components/player";
 import { getCurrentPlaybackPosition } from "../utils/api";
 
 const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
@@ -13,11 +12,9 @@ function Karaoke(props) {
   const [lyrics, setLyrics] = useState([]);
   const [activeLine, setActiveLine] = useState(-1);
   const [playback, setPlayback] = useState(0);
-  const [playingTrack, setPlayingTrack] = useState(props.currentTrack);
+  const [lyricAPIresult, setLyricAPIresult] = useState(0);
 
   useEffect(() => {
-    //props.onRender();
-    fetchURL();
     getCurrentPlaybackPosition().then((data) => {
       setPlayback(data.progress_ms);
     });
@@ -35,7 +32,7 @@ function Karaoke(props) {
     const currentLineNumber = data.line.lineNumber;
     const lineTime = data.line.startMillisecond;
     const active = activeLine === currentLineNumber ? true : false;
-    if (closeToTime(lineTime, playback, 250)) {
+    if (closeToTime(lineTime, playback, 750)) {
       setActiveLine(data.line.lineNumber);
     }
 
@@ -48,10 +45,6 @@ function Karaoke(props) {
             color: active ? "#eeeeee" : "#888888",
             fontWeight: active ? "bold" : "normal",
             lineHeight: active ? "2em" : "2em",
-            //margin: "20px",
-            //display: "flex",
-            //justifyContent: "center",
-            //flexDirection: "column",
             textAlign: "center",
           }}
         >
@@ -61,26 +54,34 @@ function Karaoke(props) {
     }
   }
 
-  function CB(line) {
+  function lineToLrcCB(line) {
     if (!line) return;
     if (!line.timeTag || !line.words) return;
     return String("[" + line.timeTag + "]" + line.words);
   }
 
+  /*
+    setLyricAPIresult ->
+      0 = Loading lyrics
+      1 = No lyrics availabel
+      2 = Lyrics loaded
+  */
   function fetchURL() {
-    fetch(URL + playingTrack + "&format=lrc")
+    setLyricAPIresult(0);
+    fetch(URL + props.currentTrack + "&format=lrc")
       .then((response) => response.json())
       .then((data) => {
-        const lyrs = data.lines.map(CB);
+        const lyrs = data.lines.map(lineToLrcCB);
         const str = lyrs.join("\n");
         setLyrics(str);
         setActiveLine(activeLine + 1);
+        setLyricAPIresult(2);
       })
       .catch((err) => {
+        setLyricAPIresult(1);
         console.log(err.message);
       });
   }
-
   useEffect(() => {
     fetchURL();
   }, []);
@@ -110,8 +111,8 @@ function Karaoke(props) {
     let interval;
     if (props.isPlaying) {
       interval = setInterval(() => {
-        setPlayback((playback) => playback + 100);
-      }, 100);
+        setPlayback((playback) => playback + 50);
+      }, 50);
     } else {
       if (interval) {
         clearInterval(interval);
@@ -129,10 +130,13 @@ function Karaoke(props) {
     };
   }, [props.isPlaying]);
 
-  //useEffect(() => {
-  //  console.log(playback);
-  //}, [playback]);
-
+  function loading() {
+    if (lyricAPIresult === 0) {
+      return <h1>LOADING...</h1>;
+    } else if (lyricAPIresult === 1) {
+      return <h1>No lyrics available...</h1>;
+    }
+  }
   return (
     <div>
       {lyrics.length !== 0 ? (
@@ -147,7 +151,7 @@ function Karaoke(props) {
           </div>
         </div>
       ) : (
-        <h1>LOADING...</h1>
+        loading()
       )}
     </div>
   );

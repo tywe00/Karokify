@@ -32,15 +32,12 @@ function HomeView(props) {
   const [track, setTrack] = useState(null);
   const [player, setPlayer] = useState(<Player />);
   const [useKaraoke, setUseKaraoke] = useState(false);
+  const [karaoke, setKarakoke] = useState(<Karaoke />);
   const [playlistsData, setPlaylists] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  function karaokeCallback() {
-    console.log("KARAOKE!!");
-  }
 
   // todo change this use effect to use the redux store
   useEffect(() => {
@@ -64,7 +61,7 @@ function HomeView(props) {
         currentTime={currentTime}
         isPlaying={isPlaying}
         currentTrack={props.currentTrack.id}
-        onRender={karaokeCallback}
+        onRender={() => {}}
       />
     );
   } else if (playlistTracks) {
@@ -150,6 +147,7 @@ function HomeView(props) {
         <TrackHistory
           data={props.recentTracks}
           setCurrentTrack={setCurrentTrack}
+          setUseKaraoke={setUseKaraoke}
         />
       </div>
 
@@ -216,7 +214,7 @@ function HomeView(props) {
   }
 
   function setCurrentTrack(track) {
-    setUseKaraoke(true);
+    //setUseKaraoke(true);
     setPlaystate(true);
     props.setCurrentTrack(track);
     props.addToRecent(track);
