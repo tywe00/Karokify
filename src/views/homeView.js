@@ -7,7 +7,6 @@ import "../styles/homeView.css";
 import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
-import { BsChatSquareQuote, BsChatSquareQuoteFill } from "reac
 import { getAlbum, getPlaylists,getSearchResults, getUserSpotifyProfile, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,6 +14,7 @@ import { doSearch } from "../slices/searchResultSlice.js";
 import { subscribeToStore } from "../store/store.js";
 import TrackHistory from "../components/trackHistory.js";
 import { playHistory } from "../data/historyData.js";
+import { getPlaylistTracks } from "../utils/api.js";
 
 
 //TODO: Add description of what a user can expect of karokify
@@ -32,11 +32,12 @@ function HomeView(props) {
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate()
-  const dispatch = useDispch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("homeview is mounted")
     console.log(props);
+  }, [])
   
   useEffect(() => {
     if(props.persistedData.dataisLoaded === true) {
@@ -208,3 +209,4 @@ function HomeView(props) {
 }
 
 export default HomeView;
+
