@@ -108,7 +108,7 @@ function HomeView(props) {
           </div>
           {content}
         </div>
-        <TrackHistory data = {props.recentTracks} setCurrentTrack = {setCurrentTrack}/>
+        <TrackHistory setUseKaraoke= {setUseKaraoke} data = {props.recentTracks} setCurrentTrack = {setCurrentTrack}/>
       </div>
 
       {props.currentTrack ? (
@@ -172,7 +172,7 @@ function HomeView(props) {
   }
 
   function setCurrentTrack(track) {
-    setUseKaraoke(true);
+
     setPlaystate(true);
     props.setCurrentTrack(track);
     props.addToRecent(track);    
