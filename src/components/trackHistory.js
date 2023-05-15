@@ -4,7 +4,7 @@ import "../styles/trackHistory.css";
 
 function TrackHistory(props) {
 
-  console.log(props)
+  //console.log(props)
 
     
 

@@ -26,6 +26,8 @@ const userSpotifyPlist = createSlice({
                   id: item.tracks.href.split('playlists/')[1]
                 };
               });
+            console.log("this is from store")
+            console.log(state.playlists)
             state.error = ''
         })
         builder.addCase(fetchPlayLists.rejected, (state,action) => {

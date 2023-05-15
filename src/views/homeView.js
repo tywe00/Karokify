@@ -210,7 +210,7 @@ function HomeView(props) {
     setUseKaraoke(false);
     setSearchResults(false);
     props.setSearchTerm(false);
-    console.log("hejsan");
+    //console.log("hejsan");
     setPlaylistTracks(parsedData);
   }
 }

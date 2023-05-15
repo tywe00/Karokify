@@ -20,9 +20,8 @@ function LoadingPageTwo() {
                 dispatch(setAccessToken(token));
                 dispatch(setRefreshToken(refreshtoken));
                 dispatch(fetchPlayLists(token));
+                console.log("dispatched fetchplaylists");
                 const userID = await dispatch(getUserInfo(token)).unwrap();
-                console.log("this is user id to fetch data from firebase")
-                console.log(userID.id);
                 dispatch(fetchFromFirebase(userID.id));
                 setReady(true);                
             }
