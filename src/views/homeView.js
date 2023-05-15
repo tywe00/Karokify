@@ -7,14 +7,19 @@ import "../styles/homeView.css";
 import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
-import { getAlbum, getPlaylists,getSearchResults, getUserSpotifyProfile, getUserInfo } from "../utils/api.js";
+import {
+  getAlbum,
+  getPlaylists,
+  getSearchResults,
+  getUserSpotifyProfile,
+  getUserInfo,
+} from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
 import { subscribeToStore } from "../store/store.js";
 import TrackHistory from "../components/trackHistory.js";
 import { getPlaylistTracks } from "../utils/api.js";
-
 
 //TODO: Add description of what a user can expect of karokify
 //TODO: Add a header on top of sidebar to describe purpose
@@ -30,13 +35,12 @@ function HomeView(props) {
   const [playlistsData, setPlaylists] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("homeview is mounted")
-    console.log(props);
-  }, [])
+  function karaokeCallback() {
+    console.log("KARAOKE!!");
+  }
 
   // todo change this use effect to use the redux store
   useEffect(() => {
@@ -45,12 +49,12 @@ function HomeView(props) {
       setPlaylists(data);
     });
   }, []);
-  
+
   useEffect(() => {
-    if(props.persistedData.dataisLoaded === true) {
-        subscribeToStore(props.userInfo.userID.id);
+    if (props.persistedData.dataisLoaded === true) {
+      subscribeToStore(props.userInfo.userID.id);
     }
-  }, [props.persistedData.dataisLoaded])
+  }, [props.persistedData.dataisLoaded]);
 
   let content = null;
 
@@ -59,7 +63,8 @@ function HomeView(props) {
       <Karaoke
         currentTime={currentTime}
         isPlaying={isPlaying}
-        props={props.currentTrack.id}
+        currentTrack={props.currentTrack.id}
+        onRender={karaokeCallback}
       />
     );
   } else if (playlistTracks) {
@@ -119,13 +124,33 @@ function HomeView(props) {
               </nav>
             </div>
           </div>
-          <div className="toggle">{useKaraoke ? 
-          <div><button className="activeKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div> : 
-          <div><button className="inactiveKaraoke" onClick={() => setUseKaraoke(!useKaraoke)}>Karaoke mode</button></div>}
+          <div className="toggle">
+            {useKaraoke ? (
+              <div>
+                <button
+                  className="activeKaraoke"
+                  onClick={() => setUseKaraoke(!useKaraoke)}
+                >
+                  Karaoke mode
+                </button>
+              </div>
+            ) : (
+              <div>
+                <button
+                  className="inactiveKaraoke"
+                  onClick={() => setUseKaraoke(!useKaraoke)}
+                >
+                  Karaoke mode
+                </button>
+              </div>
+            )}
           </div>
           {content}
         </div>
-        <TrackHistory data = {props.recentTracks} setCurrentTrack = {setCurrentTrack}/>
+        <TrackHistory
+          data={props.recentTracks}
+          setCurrentTrack={setCurrentTrack}
+        />
       </div>
 
       {props.currentTrack ? (
@@ -176,9 +201,9 @@ function HomeView(props) {
     if (e.target.value.length > 2) {
       e.preventDefault();
       const accessToken = props.tokenInfo.accessToken;
-      props.setSearchTerm(e.target.value)
-      const searchTerm = props.searchTerm
-      props.search({accessToken, searchTerm});
+      props.setSearchTerm(e.target.value);
+      const searchTerm = props.searchTerm;
+      props.search({ accessToken, searchTerm });
       setPlaylistTracks(false);
       setUseKaraoke(false);
       props.search({ accessToken, searchTerm });
@@ -201,7 +226,6 @@ function HomeView(props) {
     //     playHistory.playHistoryList.splice(i, 1);
     //   }
     // }
-    
   }
 
   async function playlistClick(playlistId) {
@@ -216,4 +240,3 @@ function HomeView(props) {
 }
 
 export default HomeView;
-
