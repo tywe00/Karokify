@@ -10,9 +10,9 @@ function TrackHistory(props) {
 
 
     function handleCLick(item) {
-        console.log(item)
+      
       props.setUseKaraoke(false)
-        props.setCurrentTrack(item)
+      props.setCurrentTrack(item)
         
     }
     
