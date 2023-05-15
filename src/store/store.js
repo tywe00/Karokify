@@ -34,7 +34,6 @@ const store = configureStore({
 })
 
 export const subscribeToStore = (userID) => {
-    console.log("subscription done")
     return store.subscribe(() => persistToFirebase(userID));
 }
 

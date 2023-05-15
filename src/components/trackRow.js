@@ -19,7 +19,7 @@ function TrackRow(props) {
           </tr>
         </tbody>
       </table>
-      <hr className="divider"></hr>
+      
 
     </div>
   );

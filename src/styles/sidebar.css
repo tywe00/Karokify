@@ -28,6 +28,7 @@
   overflow-y: auto;
   height: calc(100vh - 195px);
   font-size: 0.8em;
+  font-size: medium;
 }
 
 p:hover {
