@@ -4,9 +4,8 @@ import "../styles/trackHistory.css";
 function TrackHistory(props) {
   console.log(props);
 
-  function handleCLick(item) {
-    console.log(item);
 
+  function handleCLick(item) {
     props.setUseKaraoke(false);
     props.setCurrentTrack(item);
   }

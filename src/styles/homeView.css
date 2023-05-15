@@ -11,6 +11,7 @@
     width: 280px;
     height: 100%;
     background-color: #121212;
+    scrollbar-width: thin;
   }
 
   /* Hide the default scrollbar */
@@ -43,6 +44,11 @@
     overflow: hidden;
     scrollbar-width: thin;
     scrollbar-color: #6b6b6b #212121;
+  }
+
+  .playlists {
+    
+    font-size: large;
   }
 
   .sidebar-logo {

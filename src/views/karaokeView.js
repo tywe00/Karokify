@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Lrc } from "react-lrc";
 import "../styles/karaoke.css";
-import { getCurrentPlaybackPosition } from "../utils/api";
+import { getCurrentPlaybackPosition, lyricEndpointURL } from "../utils/api";
 
-const URL = "https://spotify-lyric-api.herokuapp.com/?trackid=";
-const trackID = "6ich2xMH5AR39V85miIAN8";
-//const api = URL + trackID + "&format=lrc";
-//https://open.spotify.com/track/6ich2xMH5AR39V85miIAN8?si=a2160d7cc4394b40
+
 
 function Karaoke(props) {
   const [lyrics, setLyrics] = useState([]);
@@ -60,6 +57,7 @@ function Karaoke(props) {
     return String("[" + line.timeTag + "]" + line.words);
   }
 
+
   /*
     setLyricAPIresult ->
       0 = Loading lyrics
@@ -68,7 +66,7 @@ function Karaoke(props) {
   */
   function fetchURL() {
     setLyricAPIresult(0);
-    fetch(URL + props.currentTrack + "&format=lrc")
+    fetch(lyricEndpointURL + props.props + "&format=lrc")
       .then((response) => response.json())
       .then((data) => {
         const lyrs = data.lines.map(lineToLrcCB);
