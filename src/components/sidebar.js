@@ -9,10 +9,8 @@ function Sidebar(props) {
     <div className="sidebar">
       <img className="sidebar-logo" src={require("../assets/karaokify.png")} />
       <div className="playlists">
-      {props.playlists ? (
-        <table>
-          <tbody>{props.playlists.map(playlistsRenderCB)}</tbody>
-        </table>
+      {props.playlists ? (  
+          props.playlists.map(playlistsRenderCB)
       ) : (
         <p>Loading...</p>
       )}

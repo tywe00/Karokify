@@ -57,7 +57,6 @@ function Karaoke(props) {
     return String("[" + line.timeTag + "]" + line.words);
   }
 
-
   /*
     setLyricAPIresult ->
       0 = Loading lyrics
@@ -128,6 +127,7 @@ function Karaoke(props) {
     };
   }, [props.isPlaying]);
 
+
   function loading() {
     if (lyricAPIresult === 0) {
       return <h1>LOADING...</h1>;
@@ -135,6 +135,7 @@ function Karaoke(props) {
       return <h1>No lyrics available...</h1>;
     }
   }
+
   return (
     <div>
       {lyrics.length !== 0 ? (
