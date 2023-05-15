@@ -12,9 +12,6 @@ import TrackHistory from "../components/trackHistory.js";
 import { getPlaylistTracks } from "../utils/api.js";
 
 
-//TODO: Add description of what a user can expect of karokify
-//TODO: Add a header on top of sidebar to describe purpose
-//TODO: Indicate the function of lyrics button
 function HomeView(props) {
   const [isPlaying, setIsPlaying] = useState(false); // variable to keep track of playing state throughout the app
   const [currentTime, setCurrentTime] = useState(0);
