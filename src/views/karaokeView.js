@@ -79,8 +79,6 @@ function Karaoke(props) {
   }
 
   useEffect(() => {
-    console.log("PROPS:");
-    console.log(props);
     fetch(URL + props.props + "&format=lrc")
       .then((response) => response.json())
       .then((data) => {
@@ -90,7 +88,7 @@ function Karaoke(props) {
         setActiveLine(activeLine + 1);
       })
       .catch((err) => {
-        console.log(err.message);
+        'console.log'(err.message);
       });
   }, []);
 
@@ -135,9 +133,6 @@ function Karaoke(props) {
     };
   }, [props.isPlaying]);
 
-  //useEffect(() => {
-  //  console.log(playback);
-  //}, [playback]);
 
   return (
     <div>

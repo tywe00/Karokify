@@ -33,19 +33,12 @@
     }
 }
 
-  .trackRow p,p1 {
+  .trackRow p {
     pointer-events: none;
     margin: 0;
     
 
   }
-
-  .trackRow p1 {
-    color: gray;
-  }
- 
-
-  
 
   .trackRow:hover {
     background-color: #5D3FD3;

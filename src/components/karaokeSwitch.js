@@ -21,7 +21,7 @@ function KaraokeSwitch(props) {
       });
     
       const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+        //setState({ ...state, [event.target.name]: event.target.checked });
         props.onClick();
       };
     

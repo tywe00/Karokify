@@ -4,19 +4,12 @@ import "../styles/trackHistory.css";
 
 function TrackHistory(props) {
 
-  console.log(props)
-
-    
-
-
-    function handleCLick(item) {
-        console.log(item)
-
-        props.setCurrentTrack(item)
-        
-    }
-    
-    
+  //console.log(props)
+  function handleCLick(item) {
+    //console.log(item);
+    props.setCurrentTrack(item); 
+  }
+      
   return (
     <div className="playHistory" >
         <h1>Recently played tracks</h1>

@@ -35,7 +35,7 @@ function HomeView(props) {
 
   useEffect(() => {
     console.log("homeview is mounted")
-    console.log(props);
+    //console.log(props);
   }, [])
 
   // todo change this use effect to use the redux store
@@ -65,16 +65,18 @@ function HomeView(props) {
   } else if (playlistTracks) {
     content = (
       <div className="searchResults">
-        <tbody>
-          <tr>{playlistTracks.map(playlistTrackRenderCB)}</tr>
-        </tbody>
+        <table>
+          <tbody>
+            {playlistTracks.map(playlistTrackRenderCB)}
+          </tbody>
+        </table>
       </div>
     );
   } else if (props.searchResults) {
     content = (
       <div className="searchResults">
         <tbody>
-          <tr>{props.searchResults.map(searchResultsRenderCB)}</tr>
+          {props.searchResults.map(searchResultsRenderCB)}
         </tbody>
       </div>
     );
@@ -162,7 +164,7 @@ function HomeView(props) {
 
     return (
       <tr key={track.id} onClick={handleRowClick}>
-        <PlaylistTrackRow data={{ track }} />
+        <td><PlaylistTrackRow data={{ track }} /></td>
       </tr>
     );
   }
@@ -210,7 +212,6 @@ function HomeView(props) {
     setUseKaraoke(false);
     setSearchResults(false);
     props.setSearchTerm(false);
-    console.log("hejsan");
     setPlaylistTracks(parsedData);
   }
 }
