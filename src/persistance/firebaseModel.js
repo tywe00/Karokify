@@ -1,22 +1,19 @@
-import { initializeApp } from 'firebase/app';
-import firebaseConfig from "./firebaseConfig";
-import { getDatabase, ref, set } from "firebase/database";
+import { ref, set } from "firebase/database";
 import store from '../store/store';
+import { db, PATH } from '../slices/persistedDataSlice';
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const PATH = "Karokify/Users";
 
-const rf = ref(db, PATH+"0001");
-set(rf, "firebase");
-
-function persistToFirebase() {
+function persistToFirebase(userID) {
+    const rf = ref(db, PATH+userID);
     const state = store.getState();
-    const playedHistory = state.playedHistory;
-    set(rf, playedHistory);
+    let persistedData = {};
+    persistedData.playedTracks = state.playedHistory;
+    persistedData.currentTrack = state.currentTrack;
+    set(rf, persistedData);
 }
 
-store.subscribe(persistToFirebase);
+
+export default persistToFirebase;
 
 
 

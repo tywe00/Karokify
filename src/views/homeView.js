@@ -7,13 +7,15 @@ import "../styles/homeView.css";
 import "../styles/nav.css";
 import Player from "../components/player";
 import Navbar from "../components/navbar.js";
-import { BsChatSquareQuote, BsChatSquareQuoteFill } from "react-icons/bs";
-import { getAlbum, getPlaylists,getSearchResults, getPlaylistTracks, getUserInfo } from "../utils/api.js";
+import { BsChatSquareQuote, BsChatSquareQuoteFill } from "reac
+import { getAlbum, getPlaylists,getSearchResults, getUserSpotifyProfile, getUserInfo } from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doSearch } from "../slices/searchResultSlice.js";
+import { subscribeToStore } from "../store/store.js";
 import TrackHistory from "../components/trackHistory.js";
 import { playHistory } from "../data/historyData.js";
+
 
 //TODO: Add description of what a user can expect of karokify
 //TODO: Add a header on top of sidebar to describe purpose
@@ -29,19 +31,18 @@ function HomeView(props) {
   const [playlistsData, setPlaylists] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const dispatch = useDispch();
+
+  useEffect(() => {
+    console.log("homeview is mounted")
+    console.log(props);
   
-
   useEffect(() => {
-    console.log("homeview is mounted");
-  }, []);
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    getPlaylists(accessToken).then((data) => {
-      setPlaylists(data);
-    });
-  }, []);
+    if(props.persistedData.dataisLoaded === true) {
+        subscribeToStore(props.userInfo.userID.id);
+    }
+  }, [props.persistedData.dataisLoaded])
 
   let content = null;
 
@@ -166,9 +167,10 @@ function HomeView(props) {
   function handleSearch(e) {
     if (e.target.value.length > 2) {
       e.preventDefault();
-      const accessToken = localStorage.getItem("access_token");
-      props.setSearchTerm(e.target.value);
-      const searchTerm = props.searchTerm;
+      const accessToken = props.tokenInfo.accessToken;
+      props.setSearchTerm(e.target.value)
+      const searchTerm = props.searchTerm
+      props.search({accessToken, searchTerm});
       setPlaylistTracks(false);
       setUseKaraoke(false);
       props.search({ accessToken, searchTerm });

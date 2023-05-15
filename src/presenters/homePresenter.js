@@ -12,6 +12,8 @@ function mapStateToProps(state) {
     searchTerm : state.searchResults.searchTerm,
     currentTrack : state.currentTrack.track,
     recentTracks : state.playedHistory.recentTracksList,
+    userInfo : state.userInfo,
+    persistedData : state.persistedData,
   };
 }
 
