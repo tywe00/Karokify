@@ -37,6 +37,14 @@ function HomeView(props) {
     console.log("homeview is mounted")
     console.log(props);
   }, [])
+
+  // todo change this use effect to use the redux store
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    getPlaylists(accessToken).then((data) => {
+      setPlaylists(data);
+    });
+  }, []);
   
   useEffect(() => {
     if(props.persistedData.dataisLoaded === true) {
