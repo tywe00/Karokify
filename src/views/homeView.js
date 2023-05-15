@@ -23,12 +23,7 @@ function HomeView(props) {
   const [isPlaying, setIsPlaying] = useState(false); // variable to keep track of playing state throughout the app
   const [currentTime, setCurrentTime] = useState(0);
   const [playState, setPlaystate] = useState(false);
-  const [album, setAlbum] = useState(null);
-  const [track, setTrack] = useState(null);
-  const [player, setPlayer] = useState(<Player />);
   const [useKaraoke, setUseKaraoke] = useState(false);
-  const [playlistsData, setPlaylists] = useState(null);
-  const [searchResults, setSearchResults] = useState(null);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -39,12 +34,12 @@ function HomeView(props) {
   }, [])
 
   // todo change this use effect to use the redux store
-  useEffect(() => {
+ /*  useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     getPlaylists(accessToken).then((data) => {
-      setPlaylists(data);
+      //setPlaylists(data);
     });
-  }, []);
+  }, []); */
   
   useEffect(() => {
     if(props.persistedData.dataisLoaded === true) {
@@ -86,13 +81,12 @@ function HomeView(props) {
     <div className="homeView">
       <div className="wrapper">
         <div className="sidebar">
-          {playlistsData && (
+          {
             <Sidebar
-              playlists={playlistsData}
+              playlists={props.userPlayList.playlists}
               playlistClick={playlistClick}
-              setAlbumData={props.setAlbumData}
             />
-          )}
+            }
         </div>
         <div className="mainContent">
           <div className="navbar">
@@ -157,9 +151,7 @@ function HomeView(props) {
   function playlistTrackRenderCB(track) {
     function handleRowClick() {
       setCurrentTrack(track.track);
-      //setPlayer(<Player play={true} trackURI={"spotify:track:" + trackURI} />);
     }
-
     return (
       <tr key={track.id} onClick={handleRowClick}>
         <PlaylistTrackRow data={{ track }} />
@@ -194,23 +186,13 @@ function HomeView(props) {
     setUseKaraoke(true);
     setPlaystate(true);
     props.setCurrentTrack(track);
-    props.addToRecent(track);
-    //ids = playHistory
-    // for (let i = 0; i < playHistory.playHistoryList.length; i++) {
-    //   if (playHistory.playHistoryList[i].id === track.id) {
-    //     playHistory.playHistoryList.splice(i, 1);
-    //   }
-    // }
-    
+    props.addToRecent(track);    
   }
 
   async function playlistClick(playlistId) {
     const tracks = await getPlaylistTracks(playlistId);
     const parsedData = Object.values(tracks);
     setUseKaraoke(false);
-    setSearchResults(false);
-    props.setSearchTerm(false);
-    console.log("hejsan");
     setPlaylistTracks(parsedData);
   }
 }

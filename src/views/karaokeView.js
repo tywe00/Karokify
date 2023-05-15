@@ -79,8 +79,8 @@ function Karaoke(props) {
   }
 
   useEffect(() => {
-    console.log("PROPS:");
-    console.log(props);
+    //console.log("PROPS:");
+    //console.log(props);
     fetch(URL + props.props + "&format=lrc")
       .then((response) => response.json())
       .then((data) => {
