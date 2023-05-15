@@ -23,7 +23,7 @@ function mapDispatchToProps(dispatch) {
     deleteSearchResults : () => dispatch(deleteSearchResults()),
     setSearchTerm : (searchTerm) => dispatch(setSearchTerm(searchTerm)), 
     setCurrentTrack : (track) => dispatch(setCurrentPlaying(track)),
-    addToRecent : (trackID) => dispatch(addTrack(trackID)),
+    addToRecent : (track) => dispatch(addTrack(track)),
   };
 }
 

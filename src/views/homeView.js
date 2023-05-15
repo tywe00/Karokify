@@ -187,7 +187,7 @@ function HomeView(props) {
     setUseKaraoke(true);
     setPlaystate(true);
     props.setCurrentTrack(track);
-    props.addToRecent(track.id);
+    props.addToRecent(track);
     //ids = playHistory
     for (let i = 0; i < playHistory.playHistoryList.length; i++) {
       if (playHistory.playHistoryList[i].id === track.id) {
