@@ -96,29 +96,18 @@ function getSearchResults(accessToken, searchTerm) {
 }
 
 async function getUserSpotifyProfile(accessToken) {
-  const url = 'https://api.spotify.com/v1/me';
- /*  return fetch(url, {
-    method: 'GET',
+  const url = 'https://api.spotify.com/v1/me';  
+  const response = await fetch('https://api.spotify.com/v1/me', {
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': 'Bearer ' + accessToken,
       'Content-Type': 'application/json'
     }
-  })
-  .then(response => response.json())
-  .then(data => data) */
-    //let accessToken = localStorage.getItem('access_token');
-  
-    const response = await fetch('https://api.spotify.com/v1/me', {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken,
-        'Content-Type': 'application/json'
-      }
-    });
-  
-    const data = await response.json();
-    localStorage.removeItem('userID');
-    localStorage.setItem('userID', data.id);
-    return data;
+  });
+
+  const data = await response.json();
+  localStorage.removeItem('userID');
+  localStorage.setItem('userID', data.id);
+  return data;
 }
 
 
