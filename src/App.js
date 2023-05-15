@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import LoadingPage from "./views/loadingPage";
 import HomePresenter from "./presenters/homePresenter";
 import LoadingPageTwo from "./views/loadingPageTwo";
+import LoadingPageThree from "./views/loadingPageThree";
 
 function App() {
   
@@ -16,6 +17,7 @@ function App() {
         <Route path="/homeView" element={<HomePresenter />}></Route>
         <Route path="/loadingPage" element={<LoadingPage />}></Route>
         <Route path="/fetchingData" element={<LoadingPageTwo />}></Route>
+        <Route path="/persistingData" element={< LoadingPageThree/>}></Route>
       </Routes>
     </BrowserRouter>
   );

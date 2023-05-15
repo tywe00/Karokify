@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-
 const accessToken = localStorage.getItem("access_token");
 
 function getAlbum() {
@@ -96,6 +94,8 @@ async function getUserSpotifyProfile(accessToken) {
     });
   
     const data = await response.json();
+    localStorage.removeItem('userID');
+    localStorage.setItem('userID', data.id);
     return data;
 }
 

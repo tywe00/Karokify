@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setAccessToken, setRefreshToken } from "../slices/tokenSlice";
 import { getUserInfo } from "../slices/userInfo";
 import { fetchPlayLists } from "../slices/userSpotifyPlist";
+import { fetchFromFirebase } from "../slices/persistedDataSlice";
 
 function LoadingPageTwo() {
 
@@ -12,17 +13,25 @@ function LoadingPageTwo() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const token = localStorage.getItem('access_token');
-        const refreshtoken = localStorage.getItem('refresh_token');
-        if(token) {
-            dispatch(setAccessToken(token));
-            dispatch(setRefreshToken(refreshtoken));
-            dispatch(getUserInfo(token));
-            dispatch(fetchPlayLists(token));
-            setReady(true);
+        async function fetchData() {
+            const token = localStorage.getItem('access_token');
+            const refreshtoken = localStorage.getItem('refresh_token');
+            if(token) {
+                dispatch(setAccessToken(token));
+                dispatch(setRefreshToken(refreshtoken));
+                dispatch(fetchPlayLists(token));
+                const userID = await dispatch(getUserInfo(token)).unwrap();
+                console.log("this is user id to fetch data from firebase")
+                console.log(userID.id);
+                dispatch(fetchFromFirebase(userID.id));
+                setReady(true);                
+            }
         }
+        fetchData();
         if(ready) {
+            //navigate("/persistingData");
             navigate("/homeView");
+
         }
     }, [ready]);
 

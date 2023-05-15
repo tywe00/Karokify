@@ -13,6 +13,7 @@ function mapStateToProps(state) {
     currentTrack : state.currentTrack.track,
     recentTracks : state.playedHistory.recentTracksList,
     userInfo : state.userInfo,
+    persistedData : state.persistedData,
   };
 }
 
